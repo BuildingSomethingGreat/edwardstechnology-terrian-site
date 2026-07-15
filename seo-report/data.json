@@ -1,0 +1,261 @@
+[
+  {
+    "url": "https://edwardstechnology.wixstudio.com/terrian/music",
+    "score": 67,
+    "issues": [
+      {
+        "type": "warning",
+        "message": "Title too short (3 chars). Aim for 50-60 characters."
+      },
+      {
+        "type": "error",
+        "message": "Missing meta description"
+      },
+      {
+        "type": "error",
+        "message": "Missing <h1> heading"
+      },
+      {
+        "type": "info",
+        "message": "No canonical URL specified"
+      },
+      {
+        "type": "info",
+        "message": "Missing Open Graph meta tags (og:title, og:description)"
+      },
+      {
+        "type": "warning",
+        "message": "Missing lang attribute on <html> tag"
+      }
+    ],
+    "passed": [
+      "Viewport meta tag present"
+    ],
+    "meta": {
+      "title": "429",
+      "description": null,
+      "canonical": null,
+      "ogImage": null
+    }
+  },
+  {
+    "url": "https://edwardstechnology.wixstudio.com/terrian/blog",
+    "score": 72,
+    "issues": [
+      {
+        "type": "warning",
+        "message": "Title too short (14 chars). Aim for 50-60 characters."
+      },
+      {
+        "type": "error",
+        "message": "Missing meta description"
+      },
+      {
+        "type": "error",
+        "message": "Missing <h1> heading"
+      },
+      {
+        "type": "info",
+        "message": "Missing Open Graph meta tags (og:title, og:description)"
+      }
+    ],
+    "passed": [
+      "All images have alt attributes",
+      "Canonical URL is set",
+      "Viewport meta tag present",
+      "Language attribute set"
+    ],
+    "meta": {
+      "title": "Blog | Terrian",
+      "description": null,
+      "canonical": "https://edwardstechnology.wixstudio.com/terrian/blog",
+      "ogImage": null
+    }
+  },
+  {
+    "url": "https://edwardstechnology.wixstudio.com/terrian/home",
+    "score": 72,
+    "issues": [
+      {
+        "type": "warning",
+        "message": "Title too short (14 chars). Aim for 50-60 characters."
+      },
+      {
+        "type": "warning",
+        "message": "Meta description too short (108 chars). Aim for 150-160 characters."
+      },
+      {
+        "type": "error",
+        "message": "Missing <h1> heading"
+      },
+      {
+        "type": "warning",
+        "message": "14 image(s) missing alt text"
+      }
+    ],
+    "passed": [
+      "Canonical URL is set",
+      "Open Graph meta tags present",
+      "Viewport meta tag present",
+      "Language attribute set"
+    ],
+    "meta": {
+      "title": "Home | Terrian",
+      "description": "Discover Terrian's latest projects and engage with exclusive content like backstage videos and new releases.",
+      "canonical": "https://edwardstechnology.wixstudio.com/terrian/home",
+      "ogImage": null
+    }
+  },
+  {
+    "url": "https://edwardstechnology.wixstudio.com/terrian/music-1",
+    "score": 82,
+    "issues": [
+      {
+        "type": "warning",
+        "message": "Title too short (16 chars). Aim for 50-60 characters."
+      },
+      {
+        "type": "warning",
+        "message": "Meta description too short (61 chars). Aim for 150-160 characters."
+      },
+      {
+        "type": "error",
+        "message": "Missing <h1> heading"
+      }
+    ],
+    "passed": [
+      "All images have alt attributes",
+      "Canonical URL is set",
+      "Open Graph meta tags present",
+      "Viewport meta tag present",
+      "Language attribute set"
+    ],
+    "meta": {
+      "title": "Terrian : Videos",
+      "description": "Explore new videos from Terrian and fellow Christian artists.",
+      "canonical": "https://edwardstechnology.wixstudio.com/terrian/music-1",
+      "ogImage": null
+    }
+  },
+  {
+    "url": "https://edwardstechnology.wixstudio.com/terrian/music-1-1",
+    "score": 82,
+    "issues": [
+      {
+        "type": "warning",
+        "message": "Title too short (16 chars). Aim for 50-60 characters."
+      },
+      {
+        "type": "warning",
+        "message": "Meta description too short (61 chars). Aim for 150-160 characters."
+      },
+      {
+        "type": "error",
+        "message": "Missing <h1> heading"
+      }
+    ],
+    "passed": [
+      "All images have alt attributes",
+      "Canonical URL is set",
+      "Open Graph meta tags present",
+      "Viewport meta tag present",
+      "Language attribute set"
+    ],
+    "meta": {
+      "title": "Terrian : Videos",
+      "description": "Explore new videos from Terrian and fellow Christian artists.",
+      "canonical": "https://edwardstechnology.wixstudio.com/terrian/music-1-1",
+      "ogImage": null
+    }
+  },
+  {
+    "url": "https://edwardstechnology.wixstudio.com/terrian/videos",
+    "score": 82,
+    "issues": [
+      {
+        "type": "warning",
+        "message": "Title too short (16 chars). Aim for 50-60 characters."
+      },
+      {
+        "type": "warning",
+        "message": "Meta description too short (61 chars). Aim for 150-160 characters."
+      },
+      {
+        "type": "error",
+        "message": "Missing <h1> heading"
+      }
+    ],
+    "passed": [
+      "All images have alt attributes",
+      "Canonical URL is set",
+      "Open Graph meta tags present",
+      "Viewport meta tag present",
+      "Language attribute set"
+    ],
+    "meta": {
+      "title": "Terrian : Videos",
+      "description": "Explore new videos from Terrian and fellow Christian artists.",
+      "canonical": "https://edwardstechnology.wixstudio.com/terrian/videos",
+      "ogImage": null
+    }
+  },
+  {
+    "url": "https://edwardstechnology.wixstudio.com/terrian",
+    "score": 88,
+    "issues": [
+      {
+        "type": "warning",
+        "message": "Title too short (17 chars). Aim for 50-60 characters."
+      },
+      {
+        "type": "warning",
+        "message": "Meta description too short (50 chars). Aim for 150-160 characters."
+      },
+      {
+        "type": "warning",
+        "message": "2 image(s) missing alt text"
+      }
+    ],
+    "passed": [
+      "Single H1 heading present",
+      "Canonical URL is set",
+      "Open Graph meta tags present",
+      "Viewport meta tag present",
+      "Language attribute set"
+    ],
+    "meta": {
+      "title": "Terrian : Explore",
+      "description": "Navigate Terrian's website with an immersive menu.",
+      "canonical": "https://edwardstechnology.wixstudio.com/terrian",
+      "ogImage": null
+    }
+  },
+  {
+    "url": "https://edwardstechnology.wixstudio.com/terrian/post/trusting-god-s-timing-my-journey-with-give-it-time",
+    "score": 88,
+    "issues": [
+      {
+        "type": "error",
+        "message": "Missing meta description"
+      },
+      {
+        "type": "warning",
+        "message": "1 image(s) missing alt text"
+      }
+    ],
+    "passed": [
+      "Title tag is properly configured",
+      "Single H1 heading present",
+      "Canonical URL is set",
+      "Open Graph meta tags present",
+      "Viewport meta tag present",
+      "Language attribute set"
+    ],
+    "meta": {
+      "title": "Trusting God's Timing: My Journey with 'Give It Time'",
+      "description": null,
+      "canonical": "https://edwardstechnology.wixstudio.com/terrian/post/trusting-god-s-timing-my-journey-with-give-it-time",
+      "ogImage": "https://static.wixstatic.com/media/c02cd8_6577259548554561acfdddccff075c9c~mv2.png/v1/fill/w_499,h_848,al_c,lg_1,q_90/c02cd8_6577259548554561acfdddccff075c9c~mv2.png"
+    }
+  }
+]
