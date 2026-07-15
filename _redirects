@@ -1,0 +1,3 @@
+# The site lives under /terrian/ (matches the original edwardstechnology.wixstudio.com/terrian).
+# Send the bare root there.
+/    /terrian/    302
