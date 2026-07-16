@@ -1621,8 +1621,8 @@ section.wixui-section{top:0 !important;}
 html,body,#SITE_CONTAINER,#site-root,.wixui-page,#PAGES_CONTAINER,#SITE_PAGES,section.wixui-section,[data-block-level-container],[data-mesh-id],[data-testid="colorUnderlay"],[data-hook="bgLayers"],[id^="bgLayers_"],[id^="bgMedia_"]{background-color:transparent !important;background-image:none !important;}
 #nce-opener-video{position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none;background:#0d0c0b;}
 #nce-opener-video iframe{position:absolute;top:50%;left:50%;width:100vw;height:56.25vw;min-height:100vh;min-width:177.78vh;transform:translate(-50%,-50%) scale(1.35);border:0;pointer-events:none;}
-/* Poster covers the player (and YouTube's brief load-time play/pause icon) until the video is running cleanly, then crossfades out. */
-#nce-opener-video .nce-poster{position:absolute;inset:0;z-index:1;background:#0d0c0b url(../assets/images/mbw-cover.jpg) center/contain no-repeat;transition:opacity 1.2s ease;}
+/* Dark overlay with the Terrian wordmark, covering the player (and YouTube's brief load-time play/pause icon) until the video runs cleanly, then crossfades out. */
+#nce-opener-video .nce-poster{position:absolute;inset:0;z-index:1;background:#0d0c0b url(../assets/images/terrian-script-logo.png) center/min(72vw,760px) no-repeat;transition:opacity 1.2s ease;}
 #nce-opener-video.nce-vid-in .nce-poster{opacity:0;}
 </style>
 <script>(function(){
