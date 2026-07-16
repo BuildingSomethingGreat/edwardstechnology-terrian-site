@@ -948,6 +948,9 @@ Stay Connected.</h2></div><!--/$--></div><!--/$--></div></div></section><!--/$--
 /* Remove Wix's "Built on Wix Studio" ad bar and the empty top offset it reserved. */
 :root{--wix-ads-height:0px !important;}
 #site-root{top:0 !important;}
+/* Sticky sections carried a hardcoded 30px ad-bar offset -> shows as a dark strip at the very
+   top on light pages. Zero it now that the ad bar is gone. */
+section.wixui-section{top:0 !important;}
 #WIX_ADS,[class*="FreemiumBanner"],[class*="WixFreeSiteBanner"],[id*="WIX_ADS"]{display:none !important;}
 #nce-menu-overlay{position:fixed;inset:0;z-index:2147483000;background:#141312;opacity:0;transition:opacity .4s ease}
 #nce-menu-overlay iframe{position:absolute;inset:0;width:100%;height:100%;border:0;display:block}
@@ -1170,10 +1173,31 @@ Stay Connected.</h2></div><!--/$--></div><!--/$--></div></div></section><!--/$--
         if(!cands.length) return;
         cands.sort(function(a,b){return a.top-b.top;});
         var t=cands[0]; /* topmost = hero */
+        t.el.setAttribute('data-nce-wm','1');
+        /* Music's hero wordmark sits inside a fragile (runtime-sized) structure behind the rotating
+           portrait circle. Hide it and overlay a clean script logo centered over the portrait. */
+        if(seg==='music'){
+          t.el.style.visibility='hidden';
+          setTimeout(function(){                 /* wait for the portrait circle to finish rising */
+            if(document.getElementById('nce-music-wm')) return;
+            var circle=document.getElementById('comp-mgu485s5') || t.el;
+            var host=circle.offsetParent || circle.parentElement;
+            if(getComputedStyle(host).position==='static') host.style.position='relative';
+            var hb=host.getBoundingClientRect(), cb=circle.getBoundingClientRect();
+            var ov=document.createElement('img'); ov.id='nce-music-wm'; ov.src=pre+asset; ov.alt='Terrian';
+            ov.style.cssText='position:absolute;z-index:95;pointer-events:none;width:min(56vw,700px);'
+              +'left:'+Math.round(cb.left-hb.left+cb.width/2)+'px;top:'+Math.round(cb.top-hb.top+cb.height/2)+'px;transform:translate(-50%,-50%);';
+            host.appendChild(ov);
+          }, 3600);
+          return;
+        }
         var pic=t.el.closest('picture'); if(pic){var ss=pic.querySelectorAll('source');for(var j=0;j<ss.length;j++)ss[j].remove();}
         t.el.removeAttribute('srcset'); t.el.setAttribute('src', pre+asset);
-        t.el.style.objectFit='contain'; t.el.style.objectPosition='left center';
-        t.el.setAttribute('alt','Terrian'); t.el.setAttribute('data-nce-wm','1');
+        t.el.style.objectFit='contain'; t.el.style.objectPosition='center';
+        t.el.style.transform='scale(1.5)'; t.el.style.transformOrigin='center';
+        /* the serif box is short; let the (chunkier) script overflow it so it reads larger */
+        var anc=t.el; for(var k=0;k<4 && anc;k++){ anc.style.overflow='visible'; anc=anc.parentElement; }
+        t.el.setAttribute('alt','Terrian');
       }
       if(document.readyState==='complete') doSwap(); else window.addEventListener('load', doSwap);
       setTimeout(doSwap, 1600);

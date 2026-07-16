@@ -1916,6 +1916,9 @@ Stay Connected.</h2></div><!--/$--></div></div><!--/$--></div></div></section><!
 /* Remove Wix's "Built on Wix Studio" ad bar and the empty top offset it reserved. */
 :root{--wix-ads-height:0px !important;}
 #site-root{top:0 !important;}
+/* Sticky sections carried a hardcoded 30px ad-bar offset -> shows as a dark strip at the very
+   top on light pages. Zero it now that the ad bar is gone. */
+section.wixui-section{top:0 !important;}
 #WIX_ADS,[class*="FreemiumBanner"],[class*="WixFreeSiteBanner"],[id*="WIX_ADS"]{display:none !important;}
 #nce-menu-overlay{position:fixed;inset:0;z-index:2147483000;background:#141312;opacity:0;transition:opacity .4s ease}
 #nce-menu-overlay iframe{position:absolute;inset:0;width:100%;height:100%;border:0;display:block}
@@ -2140,7 +2143,12 @@ Stay Connected.</h2></div><!--/$--></div></div><!--/$--></div></div></section><!
         var t=cands[0]; /* topmost = hero */
         var pic=t.el.closest('picture'); if(pic){var ss=pic.querySelectorAll('source');for(var j=0;j<ss.length;j++)ss[j].remove();}
         t.el.removeAttribute('srcset'); t.el.setAttribute('src', pre+asset);
-        t.el.style.objectFit='contain'; t.el.style.objectPosition='left center';
+        t.el.style.objectFit='contain'; t.el.style.objectPosition='center';
+        t.el.style.transform='scale(1.5)'; t.el.style.transformOrigin='center';
+        /* the serif box is short; let the (chunkier) script overflow it so it reads larger */
+        var anc=t.el; for(var k=0;k<4 && anc;k++){ anc.style.overflow='visible'; anc=anc.parentElement; }
+        /* music: the wordmark sits behind the rotating portrait circle — raise it above so it reads. */
+        if(seg==='music'){ var e2=t.el; for(var m=0;m<5 && e2;m++){ if(getComputedStyle(e2).position==='static') e2.style.position='relative'; e2.style.zIndex='90'; e2=e2.parentElement; } }
         t.el.setAttribute('alt','Terrian'); t.el.setAttribute('data-nce-wm','1');
       }
       if(document.readyState==='complete') doSwap(); else window.addEventListener('load', doSwap);
