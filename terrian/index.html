@@ -1555,6 +1555,40 @@ Stay Connected.</h2></div><!--/$--></div><!--/$--></div></div></section><!--/$--
         a.rel='noopener noreferrer'; a.setAttribute('aria-label',s[0]); a.innerHTML=s[2]; n.appendChild(a); });
       return n;
     }
+    /* ============ 4. Wordmark swap ============
+       Replace each content page's serif "terrian" hero logo with the handwritten script
+       logo, tinted to complement the page. */
+    (function(){
+      var COLOR={home:'terrian-script-logo.png',blog:'terrian-script-logo.png',
+                 music:'terrian-script-black.png',videos:'terrian-script-black.png',
+                 'music-1-1':'terrian-script-purple.png','music-1':'terrian-script-purple.png'};
+      var seg=(location.pathname.split('/terrian/')[1]||'').replace(/\/?index\.html$/,'').replace(/\/$/,'');
+      var asset=COLOR[seg]; if(!asset) return;
+      var RX=/terrian-logo|logo-alt|logo_edited|c02cd8_e937|38ce393b/i;
+      function doSwap(){
+        var cands=[];
+        var imgs=document.querySelectorAll('img');
+        for(var i=0;i<imgs.length;i++){
+          var el=imgs[i], src=el.getAttribute('src')||'';
+          if(!RX.test(src)) continue;
+          var r=el.getBoundingClientRect();
+          if(r.width<300 || (r.width/r.height)<1.8) continue; /* exclude near-square rotating circle */
+          if(el.getAttribute('data-nce-wm')) continue;
+          cands.push({el:el, top:r.top+window.scrollY, src:src});
+        }
+        if(!cands.length) return;
+        cands.sort(function(a,b){return a.top-b.top;});
+        var t=cands[0]; /* topmost = hero */
+        var newSrc=t.src.replace(/[^\/]+$/, asset);
+        var pic=t.el.closest('picture'); if(pic){var ss=pic.querySelectorAll('source');for(var j=0;j<ss.length;j++)ss[j].remove();}
+        t.el.removeAttribute('srcset'); t.el.setAttribute('src', newSrc);
+        t.el.style.objectFit='contain'; t.el.style.objectPosition='left center';
+        t.el.setAttribute('alt','Terrian'); t.el.setAttribute('data-nce-wm','1');
+      }
+      if(document.readyState==='complete') doSwap(); else window.addEventListener('load', doSwap);
+      setTimeout(doSwap, 1600);
+    })();
+
     var _p=location.pathname.replace(/index\.html$/,'').replace(/\/$/,'');
     if(_p.slice(-8)==='/terrian'){                          /* landing */
       document.body.appendChild(socialBar('nce-social--landing'));
