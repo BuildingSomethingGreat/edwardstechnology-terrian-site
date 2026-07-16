@@ -3,3 +3,6 @@ node_modules/
 .vscode/
 # Internal agency methodology — not for the public client repo
 DEWIX-PLAYBOOK.md
+
+# Local Netlify folder
+.netlify

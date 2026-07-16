@@ -325,13 +325,12 @@ url('../../assets/fonts/76c6ccf87db71198-file.ttf') format("ttf");
 </head>
 <body class="responsive">
 <style id="nce-preloader-css">
-#nce-preloader{position:fixed;inset:0;z-index:2147483600;background:#141312;display:flex;align-items:center;justify-content:center;transition:opacity .7s ease}
-#nce-preloader.nce-done{opacity:0;pointer-events:none;transform:scale(1.045)}
-#nce-preloader{transition:opacity .7s ease,transform .7s ease}
-#nce-preloader .wm{width:min(62vw,640px);aspect-ratio:1440/325;-webkit-mask:url(../../assets/images/c7b5f6c3595ba932-Copy-of-terrian-logo-alt_edited.png) center/contain no-repeat;mask:url(../../assets/images/c7b5f6c3595ba932-Copy-of-terrian-logo-alt_edited.png) center/contain no-repeat;background:linear-gradient(100deg,#7c776b 0%,#7c776b 36%,#faf8f1 50%,#7c776b 64%,#7c776b 100%);background-size:250% 100%;background-position:150% 0;animation:nce-pl-shim 1.7s linear infinite,nce-pl-in .9s cubic-bezier(.16,.84,.44,1) both}
-@keyframes nce-pl-shim{to{background-position:-150% 0}}
-@keyframes nce-pl-in{from{opacity:0;transform:scale(.93)}to{opacity:1;transform:scale(1)}}
-@media (prefers-reduced-motion:reduce){#nce-preloader .wm{animation:nce-pl-in .4s ease both;background:#f3f1e9}}
+#nce-preloader{position:fixed;inset:0;z-index:2147483600;background:#e29ee3;display:flex;align-items:center;justify-content:center;transition:opacity .7s ease,transform .7s ease}
+#nce-preloader.nce-done{opacity:0;pointer-events:none;transform:scale(1.05)}
+#nce-preloader .wm{width:min(72vw,760px);aspect-ratio:2000/910;background:url(../../assets/images/terrian-script-logo.png) center/contain no-repeat;animation:nce-pl-in 1s cubic-bezier(.16,.84,.44,1) both,nce-pl-breathe 2.6s ease-in-out 1s infinite}
+@keyframes nce-pl-in{from{opacity:0;transform:scale(.9) translateY(8px)}to{opacity:1;transform:none}}
+@keyframes nce-pl-breathe{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.86;transform:scale(.982)}}
+@media (prefers-reduced-motion:reduce){#nce-preloader .wm{animation:nce-pl-in .4s ease both}}
 </style>
 <div id="nce-preloader" role="status" aria-label="Loading"><div class="wm"></div></div>
 <script>(function(){var el=document.getElementById("nce-preloader");if(!el)return;var t0=Date.now();function done(){var w=Math.max(0,1050-(Date.now()-t0));setTimeout(function(){el.classList.add("nce-done");setTimeout(function(){if(el&&el.parentNode)el.parentNode.removeChild(el);},800);},w);}if(document.readyState==="complete")done();else window.addEventListener("load",done);setTimeout(done,4500);})();</script>
