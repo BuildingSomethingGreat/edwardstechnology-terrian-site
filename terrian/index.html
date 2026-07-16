@@ -1371,12 +1371,19 @@ section.wixui-section{top:0 !important;}
 #nce-menu-overlay iframe{position:absolute;inset:0;width:100%;height:100%;border:0;display:block}
 /* Social icons */
 .nce-social{display:flex;gap:20px;align-items:center;justify-content:center;flex-wrap:wrap}
-.nce-social a{color:#f3f1e9;opacity:.82;transition:opacity .2s ease,transform .2s ease;line-height:0;display:inline-flex}
+.nce-social a{color:var(--nce-fg,#f3f1e9);opacity:.82;transition:opacity .2s ease,transform .2s ease;line-height:0;display:inline-flex}
 .nce-social a:hover{opacity:1;transform:translateY(-2px)}
 .nce-social svg{width:22px;height:22px;display:block}
-.nce-social--landing{position:fixed;left:50%;bottom:30px;transform:translateX(-50%);z-index:54;color:#fff;flex-wrap:nowrap}
-.nce-footer{background:#141312;padding:30px 20px 36px;display:flex;flex-direction:column;align-items:center;gap:15px;position:relative;z-index:2}
-.nce-footer p{color:#c9c5b8;font:400 13px/1.5 Georgia,"Times New Roman",serif;margin:0;letter-spacing:.03em}
+/* Landing bar sits above the Wix hero boxes (which otherwise capture the clicks) so the icons are clickable. */
+.nce-social--landing{position:fixed;left:50%;bottom:30px;transform:translateX(-50%);z-index:2000000;color:#fff;flex-wrap:nowrap}
+/* Footer strip is transparent and lives inside the section above (adopts its background). */
+.nce-footer{background:transparent;padding:26px 20px 30px;display:flex;flex-direction:column;align-items:center;gap:15px;position:relative;z-index:2;width:100%;box-sizing:border-box;--nce-fg:#f3f1e9;--nce-fgc:#c9c5b8;}
+.nce-footer--light{--nce-fg:#23201b;--nce-fgc:#565046;}
+.nce-footer p{color:var(--nce-fgc);font:600 13px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;margin:0;letter-spacing:.02em}
+@media (min-width:768px){
+  /* Landing: social icons swap to the right (where the copyright was); copyright moves to center. */
+  .nce-social--landing{left:auto;right:72px;transform:none}
+}
 @media (max-width:767px){
   /* On mobile the footer links + copyright are jammed at the very bottom; place the icon row
      just above the links as a single line. */
@@ -1497,7 +1504,9 @@ section.wixui-section{top:0 !important;}
       var seen={}, items=[];
       var as=document.querySelectorAll('a[data-testid="linkElement"], nav a[href], [class*="menu"] a[href]');
       for(var i=0;i<as.length;i++){ var a=as[i]; var t=(a.textContent||'').trim();
-        var hr=a.getAttribute('href'); if(!t||!hr||seen[t]||hr.indexOf('#')===0) continue; seen[t]=1;
+        var hr=a.getAttribute('href'); if(!t||!hr||seen[t]||hr.indexOf('#')===0) continue;
+        if(/built on|wix\.com|wixsite|wix studio/i.test(t) || /wix\.com|wixsite/i.test(hr)) continue; /* drop the Wix ad link */
+        seen[t]=1;
         items.push({label:t, href:hr, target:a.getAttribute('target')}); }
       if(!items.length) return;
       var ov=makeOverlay();
@@ -1506,7 +1515,7 @@ section.wixui-section{top:0 !important;}
       items.forEach(function(it){ var a=document.createElement('a');
         a.href=it.href; if(inFrame||it.target==='_blank') a.target=it.target==='_blank'?'_blank':'_top';
         a.textContent=it.label;
-        a.style.cssText='color:#f3f1e9;font-family:Georgia,"Times New Roman",serif;font-size:clamp(24px,6.5vw,44px);font-weight:600;letter-spacing:.01em;text-decoration:none;line-height:1.25;white-space:nowrap;max-width:92vw;opacity:.92';
+        a.style.cssText='color:#f3f1e9;font-family:system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;font-size:clamp(24px,6.5vw,44px);font-weight:800;letter-spacing:.005em;text-decoration:none;line-height:1.25;white-space:nowrap;max-width:92vw;opacity:.92';
         a.addEventListener('mouseenter',function(){a.style.opacity='1';});
         a.addEventListener('mouseleave',function(){a.style.opacity='.92';});
         a.addEventListener('click', function(){ setTimeout(hideOverlay, 30); });
@@ -1564,7 +1573,7 @@ section.wixui-section{top:0 !important;}
     (function(){
       var COLOR={home:'terrian-script-logo.png',blog:'terrian-script-logo.png',
                  music:'terrian-script-black.png',videos:'terrian-script-black.png',
-                 'music-1-1':'terrian-script-purple.png','music-1':'terrian-script-purple.png'};
+                 'music-1-1':'terrian-script-purple.png','music-1':'terrian-script-logo.png'};
       var seg=(location.pathname.split('/terrian/')[1]||'').replace(/\/?index\.html$/,'').replace(/\/$/,'');
       var asset=COLOR[seg]; if(!asset) return;
       /* Local assets path (some pages, e.g. the restored music page, reference remote image URLs,
@@ -1588,15 +1597,41 @@ section.wixui-section{top:0 !important;}
         if(!cands.length) return;
         cands.sort(function(a,b){return a.top-b.top;});
         var t=cands[0]; /* topmost = hero */
+        t.el.setAttribute('data-nce-wm','1');
+        /* Music's hero wordmark sits inside a fragile (runtime-sized) structure behind the rotating
+           portrait circle. Hide it and overlay a clean script logo centered over the portrait. */
+        if(seg==='music'){
+          t.el.style.visibility='hidden';
+          /* Swap the rotating portrait for the Mad Big World picture disc. */
+          var circ=document.getElementById('comp-mgu485s5');
+          if(circ){
+            var dimg=circ.querySelector('img');
+            if(dimg){
+              var dpic=dimg.closest('picture'); if(dpic){var dss=dpic.querySelectorAll('source');for(var q=0;q<dss.length;q++)dss[q].remove();}
+              dimg.removeAttribute('srcset'); dimg.setAttribute('src', pre+'mbw-disc.png'); dimg.style.objectFit='contain';
+            }
+          }
+          setTimeout(function(){                 /* wait for the portrait circle to finish rising */
+            if(document.getElementById('nce-music-wm')) return;
+            var circle=document.getElementById('comp-mgu485s5'); if(!circle) return;
+            var cp=circle.parentNode;                                    /* circle sits directly in the section container */
+            if(getComputedStyle(cp).position==='static') cp.style.position='relative';
+            var ov=document.createElement('img'); ov.id='nce-music-wm'; ov.src=pre+asset; ov.alt='Terrian';
+            /* Same coordinate frame as the disc (shared offsetParent), sized to read from behind it. */
+            ov.style.cssText='position:absolute;pointer-events:none;width:min(74vw,900px);'
+              +'left:'+Math.round(circle.offsetLeft+circle.offsetWidth/2)+'px;'
+              +'top:'+Math.round(circle.offsetTop+circle.offsetHeight/2)+'px;transform:translate(-50%,-50%);';
+            cp.insertBefore(ov, circle);                                 /* insert BEFORE the disc -> paints behind it */
+          }, 3600);
+          return;
+        }
         var pic=t.el.closest('picture'); if(pic){var ss=pic.querySelectorAll('source');for(var j=0;j<ss.length;j++)ss[j].remove();}
         t.el.removeAttribute('srcset'); t.el.setAttribute('src', pre+asset);
         t.el.style.objectFit='contain'; t.el.style.objectPosition='center';
         t.el.style.transform='scale(1.5)'; t.el.style.transformOrigin='center';
         /* the serif box is short; let the (chunkier) script overflow it so it reads larger */
         var anc=t.el; for(var k=0;k<4 && anc;k++){ anc.style.overflow='visible'; anc=anc.parentElement; }
-        /* music: the wordmark sits behind the rotating portrait circle — raise it above so it reads. */
-        if(seg==='music'){ var e2=t.el; for(var m=0;m<5 && e2;m++){ if(getComputedStyle(e2).position==='static') e2.style.position='relative'; e2.style.zIndex='90'; e2=e2.parentElement; } }
-        t.el.setAttribute('alt','Terrian'); t.el.setAttribute('data-nce-wm','1');
+        t.el.setAttribute('alt','Terrian');
       }
       if(document.readyState==='complete') doSwap(); else window.addEventListener('load', doSwap);
       setTimeout(doSwap, 1600);
@@ -1605,11 +1640,30 @@ section.wixui-section{top:0 !important;}
     var _p=location.pathname.replace(/index\.html$/,'').replace(/\/$/,'');
     if(_p.slice(-8)==='/terrian'){                          /* landing */
       document.body.appendChild(socialBar('nce-social--landing'));
-    } else if(/\/terrian\//.test(location.pathname)){       /* content page: footer strip */
+    } else if(/\/terrian\//.test(location.pathname)){       /* content page: footer strip, nested in the section above */
       var ft=document.createElement('footer'); ft.className='nce-footer';
       ft.appendChild(socialBar());
       var cp=document.createElement('p'); cp.textContent='© 2026 Terrian. All rights reserved.';
-      ft.appendChild(cp); document.body.appendChild(ft);
+      ft.appendChild(cp);
+      var placeFooter=function(){
+        if(ft.parentNode) return;                            /* place once */
+        var secs=document.querySelectorAll('section.wixui-section'), host=null;
+        for(var i=secs.length-1;i>=0;i--){                   /* the last section with a subscribe/join control */
+          if(/subscribe|sign ?up|\bjoin\b|\bfollow\b|get updates|notify/i.test(secs[i].textContent||'')){ host=secs[i]; break; }
+        }
+        if(!host && secs.length) host=secs[secs.length-1];
+        if(!host){ document.body.appendChild(ft); return; }
+        /* pick icon/text contrast from the host section's background luminance */
+        var bgEl=host.querySelector('[data-testid="colorUnderlay"],[id^="bgLayers_"]')||host;
+        var col=getComputedStyle(bgEl).backgroundColor||'', m=col.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)(?:,\s*([\d.]+))?/);
+        var lum=0.08;                                        /* default: dark page background */
+        if(m && (m[4]===undefined || +m[4]>0.2)) lum=(0.2126*+m[1]+0.7152*+m[2]+0.0722*+m[3])/255;
+        if(lum>0.6) ft.className+=' nce-footer--light';
+        if(getComputedStyle(host).position==='static') host.style.position='relative';
+        host.appendChild(ft);
+      };
+      if(document.readyState==='complete') placeFooter(); else window.addEventListener('load', placeFooter);
+      setTimeout(placeFooter, 1800);
     }
   }catch(e){}
 })();
@@ -1624,6 +1678,8 @@ html,body,#SITE_CONTAINER,#site-root,.wixui-page,#PAGES_CONTAINER,#SITE_PAGES,se
 /* Dark overlay with the Terrian wordmark, covering the player (and YouTube's brief load-time play/pause icon) until the video runs cleanly, then crossfades out. */
 #nce-opener-video .nce-poster{position:absolute;inset:0;z-index:1;background:#0d0c0b url(../assets/images/terrian-script-logo.png) center/min(72vw,760px) no-repeat;transition:opacity 1.2s ease;}
 #nce-opener-video.nce-vid-in .nce-poster{opacity:0;}
+/* Landing footer: copyright moves to center (social icons take the right side — see .nce-social--landing). */
+@media (min-width:768px){#comp-mgue23lk{position:absolute !important;left:50% !important;right:auto !important;transform:translateX(-50%) !important;}}
 </style>
 <script>(function(){
 if(document.getElementById("nce-opener-video"))return;
