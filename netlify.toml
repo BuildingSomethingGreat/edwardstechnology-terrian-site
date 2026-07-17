@@ -1,0 +1,8 @@
+# Netlify config — Terrian static site + subscribe function.
+# The site is served from the repo root; pages live under /terrian/.
+[build]
+  publish = "."
+
+[functions]
+  directory = "netlify/functions"
+  node_bundler = "esbuild"

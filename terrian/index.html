@@ -1637,6 +1637,54 @@ section.wixui-section{top:0 !important;}
       setTimeout(doSwap, 1600);
     })();
 
+    /* ============ 5. Subscribe forms -> Netlify function -> Airtable ============
+       The Wix email forms (an <input type=email> + a "Submit" button, no <form>) lost their
+       runtime. Re-wire each one to POST to the serverless function, which writes to Airtable. */
+    (function(){
+      var ENDPOINT='/.netlify/functions/subscribe';
+      var PAGE=(function(){ var s=(location.pathname.split('/terrian/')[1]||'').replace(/\/?index\.html$/,'').replace(/\/$/,'');
+        var map={'':'Landing','home':'Home page','blog':'Blog','music':'Music page','videos':'Videos page',
+                 'music-1':'Booking page','music-1-1':'Tour page'};
+        return map[s]||(s?s+' page':'Site'); })();
+      function findBtn(inp){
+        var scope=inp; for(var k=0;k<6 && scope.parentElement;k++) scope=scope.parentElement;
+        var cands=scope.querySelectorAll('button,[role="button"],a,input[type="submit"]');
+        for(var j=0;j<cands.length;j++){ if(/^(submit|sign ?up|subscribe|send|join|notify me)$/i.test((cands[j].textContent||cands[j].value||'').trim())) return cands[j]; }
+        return null;
+      }
+      function wire(){
+        var inputs=document.querySelectorAll('input[type="email"]:not([data-nce-sub]),input[placeholder*="mail" i]:not([data-nce-sub])');
+        for(var i=0;i<inputs.length;i++){ (function(inp){
+          inp.setAttribute('data-nce-sub','1');
+          var btn=findBtn(inp), busy=false;
+          function status(msg,ok){
+            var host=(btn&&btn.parentNode)||inp.parentNode;
+            var m=host.querySelector(':scope > .nce-sub-msg')||inp.parentNode.querySelector('.nce-sub-msg');
+            if(!m){ m=document.createElement('div'); m.className='nce-sub-msg'; m.setAttribute('role','status'); inp.parentNode.appendChild(m); }
+            m.textContent=msg;
+            m.style.cssText='position:absolute;left:0;top:100%;margin-top:8px;font:600 13px/1.4 system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;white-space:nowrap;z-index:5;color:'+(ok?'#7fd18a':'#ec9a9a');
+            if(getComputedStyle(inp.parentNode).position==='static') inp.parentNode.style.position='relative';
+          }
+          function submit(e){ if(e){e.preventDefault();e.stopPropagation();} if(busy) return;
+            var email=(inp.value||'').trim();
+            if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){ status('Please enter a valid email.',false); inp.focus(); return; }
+            busy=true; status('Submitting…',true);
+            fetch(ENDPOINT,{method:'POST',headers:{'Content-Type':'application/json'},
+              body:JSON.stringify({email:email,source:PAGE,reason:'Newsletter / updates'})})
+              .then(function(r){ return r.json().then(function(d){return {s:r.status,d:d};}).catch(function(){return {s:r.status,d:{ok:r.ok}};}); })
+              .then(function(x){ busy=false;
+                if(x.d&&x.d.ok){ status('Thanks — you’re on the list! ✓',true); inp.value=''; }
+                else { status((x.d&&x.d.error)||'Something went wrong. Please try again.',false); } })
+              .catch(function(){ busy=false; status('Network error. Please try again.',false); });
+          }
+          if(btn) btn.addEventListener('click',submit);
+          inp.addEventListener('keydown',function(e){ if(e.key==='Enter'||e.keyCode===13) submit(e); });
+        })(inputs[i]); }
+      }
+      if(document.readyState==='complete') wire(); else window.addEventListener('load', wire);
+      setTimeout(wire, 2000);
+    })();
+
     var _p=location.pathname.replace(/index\.html$/,'').replace(/\/$/,'');
     if(_p.slice(-8)==='/terrian'){                          /* landing */
       document.body.appendChild(socialBar('nce-social--landing'));
@@ -1661,6 +1709,11 @@ section.wixui-section{top:0 !important;}
         if(lum>0.6) ft.className+=' nce-footer--light';
         if(getComputedStyle(host).position==='static') host.style.position='relative';
         host.appendChild(ft);
+        /* Wix baked a fixed pixel height onto the section's background image (sized to the original
+           section height). Nesting the footer grows the section, so stretch that image to cover the
+           taller section instead of leaving an uncovered strip behind the footer. */
+        var bgs=host.querySelectorAll('[id^="bgLayers_"] img,[id^="bgLayers_"] wow-image');
+        for(var g=0;g<bgs.length;g++){ bgs[g].style.height='100%'; bgs[g].style.minHeight='100%'; bgs[g].style.objectFit='cover'; }
       };
       if(document.readyState==='complete') placeFooter(); else window.addEventListener('load', placeFooter);
       setTimeout(placeFooter, 1800);
