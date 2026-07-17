@@ -1187,27 +1187,32 @@ section.wixui-section{top:0 !important;}
            portrait circle. Hide it and overlay a clean script logo centered over the portrait. */
         if(seg==='music'){
           t.el.style.visibility='hidden';
-          /* Swap the rotating portrait for the Mad Big World picture disc. */
-          var circ=document.getElementById('comp-mgu485s5');
-          if(circ){
-            var dimg=circ.querySelector('img');
+          var circle=document.getElementById('comp-mgu485s5');
+          if(circle){
+            /* Swap the rotating portrait for the Mad Big World picture disc. */
+            var dimg=circle.querySelector('img');
             if(dimg){
               var dpic=dimg.closest('picture'); if(dpic){var dss=dpic.querySelectorAll('source');for(var q=0;q<dss.length;q++)dss[q].remove();}
               dimg.removeAttribute('srcset'); dimg.setAttribute('src', pre+'mbw-disc.png'); dimg.style.objectFit='contain';
             }
-          }
-          setTimeout(function(){                 /* wait for the portrait circle to finish rising */
-            if(document.getElementById('nce-music-wm')) return;
-            var circle=document.getElementById('comp-mgu485s5'); if(!circle) return;
             var cp=circle.parentNode;                                    /* circle sits directly in the section container */
             if(getComputedStyle(cp).position==='static') cp.style.position='relative';
-            var ov=document.createElement('img'); ov.id='nce-music-wm'; ov.src=pre+asset; ov.alt='Terrian';
-            /* Same coordinate frame as the disc (shared offsetParent), sized to read from behind it. */
-            ov.style.cssText='position:absolute;pointer-events:none;width:min(74vw,900px);'
-              +'left:'+Math.round(circle.offsetLeft+circle.offsetWidth/2)+'px;'
-              +'top:'+Math.round(circle.offsetTop+circle.offsetHeight/2)+'px;transform:translate(-50%,-50%);';
-            cp.insertBefore(ov, circle);                                 /* insert BEFORE the disc -> paints behind it */
-          }, 3600);
+            /* Place the script wordmark BEHIND the disc, on load and large (wider than the disc so it
+               reads from behind, like the other pages). offsetLeft/Top are transform-independent, so
+               the disc's rising animation doesn't shift it — no need to wait. */
+            var placeWm=function(){
+              var wm=document.getElementById('nce-music-wm');
+              if(!wm){ wm=document.createElement('img'); wm.id='nce-music-wm'; wm.src=pre+asset; wm.alt='Terrian';
+                wm.style.cssText='position:absolute;pointer-events:none;'; cp.insertBefore(wm, circle); }
+              wm.style.width=Math.round(circle.offsetWidth*1.22)+'px';
+              wm.style.left=Math.round(circle.offsetLeft+circle.offsetWidth/2)+'px';
+              wm.style.top=Math.round(circle.offsetTop+circle.offsetHeight/2)+'px';
+              wm.style.transform='translate(-50%,-50%)';
+            };
+            placeWm();
+            setTimeout(placeWm, 400); setTimeout(placeWm, 1400);         /* re-align as layout settles */
+            window.addEventListener('resize', placeWm);
+          }
           return;
         }
         var pic=t.el.closest('picture'); if(pic){var ss=pic.querySelectorAll('source');for(var j=0;j<ss.length;j++)ss[j].remove();}
