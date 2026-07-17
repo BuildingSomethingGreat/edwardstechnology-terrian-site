@@ -2129,6 +2129,7 @@ section.wixui-section{top:0 !important;}
                  'music-1-1':'terrian-script-purple.png','music-1':'terrian-script-logo.png'};
       var seg=(location.pathname.split('/terrian/')[1]||'').replace(/\/?index\.html$/,'').replace(/\/$/,'');
       var asset=COLOR[seg]; if(!asset) return;
+      var NCE_WM_TOP=44;   /* home/blog hero wordmark top offset — the target the others align to */
       /* Local assets path (some pages, e.g. the restored music page, reference remote image URLs,
          so derive the script-logo path from page depth rather than the original src). */
       var _after=(location.pathname.split('/terrian/')[1]||'').replace(/index\.html$/,'').replace(/\/$/,'');
@@ -2155,27 +2156,46 @@ section.wixui-section{top:0 !important;}
            portrait circle. Hide it and overlay a clean script logo centered over the portrait. */
         if(seg==='music'){
           t.el.style.visibility='hidden';
-          /* Swap the rotating portrait for the Mad Big World picture disc. */
-          var circ=document.getElementById('comp-mgu485s5');
-          if(circ){
-            var dimg=circ.querySelector('img');
+          var circle=document.getElementById('comp-mgu485s5');
+          if(circle){
+            /* Swap the rotating portrait for the Mad Big World picture disc. */
+            var dimg=circle.querySelector('img');
             if(dimg){
               var dpic=dimg.closest('picture'); if(dpic){var dss=dpic.querySelectorAll('source');for(var q=0;q<dss.length;q++)dss[q].remove();}
               dimg.removeAttribute('srcset'); dimg.setAttribute('src', pre+'mbw-disc.png'); dimg.style.objectFit='contain';
             }
-          }
-          setTimeout(function(){                 /* wait for the portrait circle to finish rising */
-            if(document.getElementById('nce-music-wm')) return;
-            var circle=document.getElementById('comp-mgu485s5'); if(!circle) return;
             var cp=circle.parentNode;                                    /* circle sits directly in the section container */
             if(getComputedStyle(cp).position==='static') cp.style.position='relative';
-            var ov=document.createElement('img'); ov.id='nce-music-wm'; ov.src=pre+asset; ov.alt='Terrian';
-            /* Same coordinate frame as the disc (shared offsetParent), sized to read from behind it. */
-            ov.style.cssText='position:absolute;pointer-events:none;width:min(74vw,900px);'
-              +'left:'+Math.round(circle.offsetLeft+circle.offsetWidth/2)+'px;'
-              +'top:'+Math.round(circle.offsetTop+circle.offsetHeight/2)+'px;transform:translate(-50%,-50%);';
-            cp.insertBefore(ov, circle);                                 /* insert BEFORE the disc -> paints behind it */
-          }, 3600);
+            /* Place the script wordmark BEHIND the disc, on load and large (wider than the disc so it
+               reads from behind, like the other pages). offsetLeft/Top are transform-independent, so
+               the disc's rising animation doesn't shift it — no need to wait. */
+            var placeWm=function(){
+              var wm=document.getElementById('nce-music-wm');
+              if(!wm){ wm=document.createElement('img'); wm.id='nce-music-wm'; wm.src=pre+asset; wm.alt='Terrian';
+                wm.style.cssText='position:absolute;pointer-events:none;'; cp.insertBefore(wm, circle); }
+              wm.style.width=Math.round(circle.offsetWidth*1.22)+'px';
+              wm.style.left=Math.round(circle.offsetLeft+circle.offsetWidth/2)+'px';
+              wm.style.top=Math.round(circle.offsetTop+circle.offsetHeight/2)+'px';
+              wm.style.transform='translate(-50%,-50%)';
+            };
+            placeWm();
+            setTimeout(placeWm, 400); setTimeout(placeWm, 1400);         /* re-align as layout settles */
+            window.addEventListener('resize', placeWm);
+            /* Raise the disc+wordmark so the wordmark's top matches home (desktop only). The disc is a
+               grid item with an infinite spin, so shift it with relative `top` (moves it AND its
+               offsetTop, so placeWm keeps the wordmark centred on it). */
+            if(window.matchMedia && window.matchMedia('(min-width:900px)').matches){
+              var raise=function(){
+                circle.style.top='';                             /* measure natural position */
+                placeWm();
+                var wm=document.getElementById('nce-music-wm'); if(!wm) return;
+                var natTop=wm.getBoundingClientRect().top+window.scrollY;
+                var shift=Math.round(natTop-NCE_WM_TOP);
+                if(shift>0){ circle.style.top=(-shift)+'px'; placeWm(); }
+              };
+              setTimeout(raise, 500); setTimeout(raise, 1500); window.addEventListener('resize', raise);
+            }
+          }
           return;
         }
         var pic=t.el.closest('picture'); if(pic){var ss=pic.querySelectorAll('source');for(var j=0;j<ss.length;j++)ss[j].remove();}
@@ -2185,6 +2205,17 @@ section.wixui-section{top:0 !important;}
         /* the serif box is short; let the (chunkier) script overflow it so it reads larger */
         var anc=t.el; for(var k=0;k<4 && anc;k++){ anc.style.overflow='visible'; anc=anc.parentElement; }
         t.el.setAttribute('alt','Terrian');
+        /* Tour + booking heroes sit lower than home/blog; nudge their wordmark up to the same top
+           offset as home (desktop only — mobile stacks differently). */
+        if((seg==='music-1'||seg==='music-1-1') && window.matchMedia && window.matchMedia('(min-width:900px)').matches){
+          var alignTop=function(){
+            t.el.style.transform='scale(1.5)';                 /* measure the un-nudged position */
+            var cur=t.el.getBoundingClientRect().top+window.scrollY;
+            var dy=Math.round(NCE_WM_TOP-cur);
+            t.el.style.transform='translateY('+dy+'px) scale(1.5)';
+          };
+          alignTop(); setTimeout(alignTop,300); setTimeout(alignTop,1200); window.addEventListener('resize',alignTop);
+        }
       }
       if(document.readyState==='complete') doSwap(); else window.addEventListener('load', doSwap);
       setTimeout(doSwap, 1600);
@@ -2261,12 +2292,16 @@ section.wixui-section{top:0 !important;}
         if(m && (m[4]===undefined || +m[4]>0.2)) lum=(0.2126*+m[1]+0.7152*+m[2]+0.0722*+m[3])/255;
         if(lum>0.6) ft.className+=' nce-footer--light';
         if(getComputedStyle(host).position==='static') host.style.position='relative';
-        host.appendChild(ft);
-        /* Wix baked a fixed pixel height onto the section's background image (sized to the original
-           section height). Nesting the footer grows the section, so stretch that image to cover the
-           taller section instead of leaving an uncovered strip behind the footer. */
         var bgs=host.querySelectorAll('[id^="bgLayers_"] img,[id^="bgLayers_"] wow-image');
-        for(var g=0;g<bgs.length;g++){ bgs[g].style.height='100%'; bgs[g].style.minHeight='100%'; bgs[g].style.objectFit='cover'; }
+        if(bgs.length){
+          /* Photo-backed section: OVERLAY the footer at the bottom rather than appending it in flow.
+             Growing the section would force its (wide) background photo to scale up and crop; keeping
+             the section at its natural height lets the photo cover with minimal crop (full composition).
+             Still pin the image to fill 100% so no uncovered strip appears. */
+          ft.style.position='absolute'; ft.style.left='0'; ft.style.right='0'; ft.style.bottom='0';
+          for(var g=0;g<bgs.length;g++){ bgs[g].style.height='100%'; bgs[g].style.minHeight='100%'; bgs[g].style.objectFit='cover'; bgs[g].style.objectPosition='center'; }
+        }
+        host.appendChild(ft);
       };
       if(document.readyState==='complete') placeFooter(); else window.addEventListener('load', placeFooter);
       setTimeout(placeFooter, 1800);
@@ -2275,4 +2310,57 @@ section.wixui-section{top:0 !important;}
 })();
 </script>
 
+<style id="nce-blog-css">
+#nce-blog{max-width:1120px;margin:0 auto;padding:6px 24px 30px;width:100%;box-sizing:border-box}
+.nce-blog-state{color:#b7b2a6;font:400 15px/1.6 system-ui,-apple-system,sans-serif;padding:16px 2px 40px}
+.nce-blog-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:26px}
+.nce-card{display:flex;flex-direction:column;border:1px solid rgba(243,241,233,.14);border-radius:16px;overflow:hidden;background:#1b1a18;text-decoration:none;color:#f3f1e9;transition:transform .18s ease,border-color .18s ease}
+.nce-card:hover{transform:translateY(-3px);border-color:rgba(243,241,233,.32)}
+.nce-card-img{aspect-ratio:16/10;overflow:hidden;background:#000}
+.nce-card-img img{width:100%;height:100%;object-fit:cover;display:block}
+.nce-card-body{padding:20px 22px 24px}
+.nce-card-date{color:#e29ee3;font:600 12px/1 system-ui,sans-serif;letter-spacing:.1em;text-transform:uppercase;margin-bottom:12px}
+.nce-card-title{font:italic 600 24px/1.22 Georgia,"Times New Roman",serif;margin:0 0 10px}
+.nce-card-ex{color:#b7b2a6;font:400 15px/1.62 system-ui,sans-serif;margin:0 0 16px}
+.nce-card-more{color:#f3f1e9;font:600 13px/1 system-ui,sans-serif;letter-spacing:.03em}
+</style>
+<script>
+/* Blog index: hide the Wix blog app and render published posts from Airtable (read-only). */
+(function(){
+  function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+  function fmtDate(d){ if(!d) return ''; var pr=String(d).split('-'); if(pr.length!==3) return d;
+    var mo=['January','February','March','April','May','June','July','August','September','October','November','December'];
+    return mo[(+pr[1]-1)]+' '+(+pr[2])+', '+pr[0]; }
+  function build(){
+    var tpa=document.getElementById('TPASection_mcl66q3c');
+    var host=(tpa&&tpa.parentElement)||document.querySelector('#comp-mcl66tnm [class*="comp-mcl66tnm-container"]');
+    if(!host || document.getElementById('nce-blog')) return;
+    if(tpa) tpa.style.display='none';
+    var mount=document.createElement('div'); mount.id='nce-blog';
+    mount.innerHTML='<div class="nce-blog-state">Loading posts…</div>';
+    host.appendChild(mount);
+    fetch('/.netlify/functions/posts')
+      .then(function(r){ return r.json().catch(function(){return {ok:false};}); })
+      .then(function(d){
+        if(!d||!d.ok){ mount.innerHTML='<div class="nce-blog-state">'+esc((d&&d.error)||'Couldn’t load posts right now.')+'</div>'; return; }
+        if(!d.posts||!d.posts.length){ mount.innerHTML='<div class="nce-blog-state">No posts yet — check back soon.</div>'; return; }
+        var html='<div class="nce-blog-grid">';
+        d.posts.forEach(function(p){
+          html+='<a class="nce-card" href="../post/?slug='+encodeURIComponent(p.slug)+'">'
+            +(p.cover?'<div class="nce-card-img"><img src="'+esc(p.cover)+'" alt="" loading="lazy"></div>':'')
+            +'<div class="nce-card-body">'
+            +(p.date?'<div class="nce-card-date">'+esc(fmtDate(p.date))+'</div>':'')
+            +'<h3 class="nce-card-title">'+esc(p.title)+'</h3>'
+            +(p.excerpt?'<p class="nce-card-ex">'+esc(p.excerpt)+'</p>':'')
+            +'<span class="nce-card-more">Read more →</span></div></a>';
+        });
+        html+='</div>';
+        mount.innerHTML=html;
+      })
+      .catch(function(){ mount.innerHTML='<div class="nce-blog-state">Network error — please try again.</div>'; });
+  }
+  if(document.readyState==='complete') build(); else window.addEventListener('load', build);
+  setTimeout(build, 1800);
+})();
+</script>
 </body></html>

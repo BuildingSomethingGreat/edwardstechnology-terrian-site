@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Blog | Terrian</title>
+<meta name="description" content="Words from Terrian.">
+<style>
+  :root{--bg:#141312;--fg:#f3f1e9;--muted:#b7b2a6;--line:rgba(243,241,233,.14);--accent:#e29ee3;}
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{-webkit-text-size-adjust:100%}
+  body{background:var(--bg);color:var(--fg);font:400 18px/1.75 system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased;}
+  a{color:inherit}
+  .wrap{max-width:720px;margin:0 auto;padding:0 24px}
+  header{padding:36px 0 10px;text-align:center}
+  header .home{display:inline-block;line-height:0}
+  header img{width:min(52vw,260px);height:auto}
+  .toplink{display:block;text-align:center;margin:14px 0 0;color:var(--muted);font-size:14px;text-decoration:none}
+  .toplink:hover{color:var(--fg)}
+  main{padding:34px 0 10px;min-height:40vh}
+  .eyebrow{font:600 13px/1 system-ui,sans-serif;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);margin-bottom:16px}
+  h1.title{font:italic 600 clamp(32px,6vw,52px)/1.08 Georgia,"Times New Roman",serif;letter-spacing:-.01em}
+  .meta{color:var(--muted);font-size:14.5px;margin-top:18px;letter-spacing:.02em}
+  .cover{margin:30px 0 8px;border-radius:16px;overflow:hidden;border:1px solid var(--line)}
+  .cover img{width:100%;height:auto;display:block}
+  .body{margin-top:26px}
+  .body p{color:#e7e4da;margin:0 0 20px}
+  .body h2{font:600 15px/1.3 system-ui,sans-serif;letter-spacing:.12em;text-transform:uppercase;color:var(--fg);margin:34px 0 14px}
+  .body h3{font:italic 600 24px/1.3 Georgia,serif;margin:28px 0 12px}
+  .body blockquote{margin:24px 0;padding:6px 0 6px 22px;border-left:2px solid var(--accent);color:var(--fg);font:italic 400 21px/1.6 Georgia,serif}
+  .body ul{margin:0 0 20px 22px;color:#e7e4da}.body li{margin:8px 0}
+  .body a{color:var(--fg);text-decoration:underline;text-underline-offset:3px}
+  .body strong{color:var(--fg)}
+  .state{color:var(--muted);text-align:center;padding:60px 0}
+  footer{padding:52px 0 56px;text-align:center;border-top:1px solid var(--line);margin-top:48px}
+  .social{display:flex;gap:22px;justify-content:center;align-items:center;margin-bottom:16px}
+  .social a{color:var(--fg);opacity:.8;transition:opacity .2s,transform .2s;line-height:0;display:inline-flex}
+  .social a:hover{opacity:1;transform:translateY(-2px)}.social svg{width:22px;height:22px;display:block}
+  .copy{color:var(--muted);font-size:13px}
+  .back{display:inline-block;margin-top:22px;color:var(--muted);font-size:14px;text-decoration:none}.back:hover{color:var(--fg)}
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <a class="home" href="../home/index.html" aria-label="Terrian home"><img src="../../assets/images/terrian-script-logo.png" alt="Terrian"></a>
+      <a class="toplink" href="../blog/index.html">← All posts</a>
+    </header>
+
+    <main id="post"><p class="state">Loading…</p></main>
+
+    <footer>
+      <nav class="social" aria-label="Terrian on social media">
+        <a href="https://www.instagram.com/iamterrian" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="2.5" y="2.5" width="19" height="19" rx="5.5"/><circle cx="12" cy="12" r="4.3"/><circle cx="17.6" cy="6.4" r="1.15" fill="currentColor" stroke="none"/></svg></a>
+        <a href="https://twitter.com/iamterrian" target="_blank" rel="noopener noreferrer" aria-label="X (Twitter)"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.9 2.5h3.3l-7.2 8.2L23.7 22h-6.6l-5.2-6.8L5.9 22H2.6l7.7-8.8L.9 2.5h6.8l4.7 6.2 5.5-6.2zm-1.2 17.5h1.8L6.9 4.4H5l12.7 15.6z"/></svg></a>
+        <a href="https://www.youtube.com/channel/UC6bWXuTerKlroiGyS_5uPBw" target="_blank" rel="noopener noreferrer" aria-label="YouTube"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.5 6.5a3 3 0 0 0-2.1-2.1C19.6 3.9 12 3.9 12 3.9s-7.6 0-9.4.5A3 3 0 0 0 .5 6.5 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.5 3 3 0 0 0 2.1 2.1c1.8.5 9.4.5 9.4.5s7.6 0 9.4-.5a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.5zM9.6 15.6V8.4l6.3 3.6-6.3 3.6z"/></svg></a>
+        <a href="https://open.spotify.com/artist/19TPpTWkgX13Qc2stbqVoP" target="_blank" rel="noopener noreferrer" aria-label="Spotify"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0a12 12 0 1 0 0 24 12 12 0 0 0 0-24zm5.5 17.3a.75.75 0 0 1-1 .25c-2.8-1.7-6.4-2.1-10.5-1.1a.75.75 0 1 1-.33-1.46c4.6-1 8.5-.55 11.6 1.32.35.22.46.68.24 1zm1.47-3.27a.94.94 0 0 1-1.29.31c-3.2-2-8.1-2.5-11.9-1.36a.94.94 0 1 1-.55-1.8c4.3-1.3 9.7-.72 13.4 1.56.44.27.58.85.31 1.29zm.13-3.4C15.3 8.3 8.9 8.1 5.3 9.2a1.13 1.13 0 1 1-.65-2.16C8.8 5.8 15.8 6 20.2 8.6a1.13 1.13 0 0 1-1.16 1.93z"/></svg></a>
+        <a href="https://www.facebook.com/iamterrian" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M24 12a12 12 0 1 0-13.9 11.9v-8.4H7.1V12h3V9.4c0-3 1.8-4.6 4.5-4.6 1.3 0 2.6.24 2.6.24v2.9h-1.4c-1.4 0-1.9.9-1.9 1.8V12h3.2l-.5 3.5h-2.7v8.4A12 12 0 0 0 24 12z"/></svg></a>
+      </nav>
+      <div class="copy">© 2026 Terrian. All rights reserved.</div>
+      <a class="back" href="../home/index.html">← Back to terrian.com</a>
+    </footer>
+  </div>
+
+<script>
+(function(){
+  var mount=document.getElementById('post');
+  var slug=new URLSearchParams(location.search).get('slug');
+  function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+  function inline(s){ /* run on already-escaped text */
+    return s
+      .replace(/\[([^\]]+)\]\((https?:[^)\s]+)\)/g,'<a href="$2" target="_blank" rel="noopener">$1</a>')
+      .replace(/\*\*([^*]+)\*\*/g,'<strong>$1</strong>')
+      .replace(/(^|[^*])\*([^*]+)\*/g,'$1<em>$2</em>');
+  }
+  function md(src){
+    var blocks=String(src).replace(/\r/g,'').split(/\n{2,}/), html='';
+    blocks.forEach(function(b){
+      b=b.trim(); if(!b) return;
+      if(/^###\s+/.test(b)){ html+='<h3>'+inline(esc(b.replace(/^###\s+/,'')))+'</h3>'; return; }
+      if(/^##\s+/.test(b)){ html+='<h2>'+inline(esc(b.replace(/^##\s+/,'')))+'</h2>'; return; }
+      if(/^>\s+/.test(b)){ html+='<blockquote>'+inline(esc(b.replace(/^>\s+/,'').replace(/\n>\s?/g,' ')))+'</blockquote>'; return; }
+      if(/^([-*])\s+/.test(b)){ var items=b.split(/\n/).map(function(l){return l.replace(/^([-*])\s+/,'').trim();}).filter(Boolean);
+        html+='<ul>'+items.map(function(i){return '<li>'+inline(esc(i))+'</li>';}).join('')+'</ul>'; return; }
+      html+='<p>'+inline(esc(b)).replace(/\n/g,'<br>')+'</p>';
+    });
+    return html;
+  }
+  function fmtDate(d){ if(!d) return ''; var parts=String(d).split('-'); if(parts.length!==3) return d;
+    var mo=['January','February','March','April','May','June','July','August','September','October','November','December'];
+    return mo[(+parts[1]-1)]+' '+(+parts[2])+', '+parts[0]; }
+  function readTime(body){ var w=String(body).trim().split(/\s+/).length; return Math.max(1,Math.round(w/200))+' min read'; }
+  function fail(msg){ mount.innerHTML='<p class="state">'+esc(msg)+'<br><br><a class="back" href="../blog/index.html">← All posts</a></p>'; }
+
+  if(!slug){ fail('Post not found.'); return; }
+  fetch('/.netlify/functions/posts?slug='+encodeURIComponent(slug))
+    .then(function(r){ return r.json().then(function(d){return {s:r.status,d:d};}); })
+    .then(function(x){
+      if(!x.d || !x.d.ok || !x.d.post){ fail((x.d&&x.d.error)||'Post not found.'); return; }
+      var p=x.d.post;
+      document.title=p.title+' | Terrian';
+      var metaBits=[fmtDate(p.date), p.author, readTime(p.body)].filter(Boolean).join('  ·  ');
+      var html='<p class="eyebrow">Blog</p>';
+      html+='<h1 class="title">'+esc(p.title)+'</h1>';
+      if(metaBits) html+='<div class="meta">'+esc(metaBits)+'</div>';
+      if(p.cover) html+='<div class="cover"><img src="'+esc(p.cover)+'" alt="'+esc(p.title)+'"></div>';
+      html+='<div class="body">'+md(p.body)+'</div>';
+      html+='<a class="back" href="../blog/index.html" style="margin-top:36px">← All posts</a>';
+      mount.innerHTML=html;
+    })
+    .catch(function(){ fail('Could not load this post. Please try again.'); });
+})();
+</script>
+</body>
+</html>
