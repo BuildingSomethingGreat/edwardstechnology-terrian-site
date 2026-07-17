@@ -1,0 +1,303 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Terrian</title>
+<meta name="description" content="Terrian — Mad Big World. Music, story, and shows.">
+<style>
+  :root{--ink:#141312;--cream:#f3f1e9;--muted:#b7b2a6;--pink:#e29ee3;--purple:#5a2d7a;--line:rgba(243,241,233,.16);}
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+  body{background:var(--ink);color:var(--cream);font:400 18px/1.7 system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  a{color:inherit;text-decoration:none}
+  img{display:block;max-width:100%}
+  .display{font-weight:800;letter-spacing:-.02em;text-transform:uppercase;line-height:.92}
+  .serif{font-family:Georgia,"Times New Roman",serif}
+  .eyebrow{font:700 12px/1 system-ui,sans-serif;letter-spacing:.24em;text-transform:uppercase;color:var(--pink)}
+  .btn{display:inline-flex;align-items:center;gap:10px;font:700 13px/1 system-ui,sans-serif;letter-spacing:.06em;text-transform:uppercase;padding:15px 26px;border-radius:999px;transition:transform .18s ease,background .2s ease,color .2s ease;white-space:nowrap}
+  .btn--solid{background:var(--cream);color:var(--ink)}
+  .btn--solid:hover{transform:translateY(-2px)}
+  .btn--ghost{border:1px solid rgba(243,241,233,.35);color:var(--cream)}
+  .btn--ghost:hover{background:var(--cream);color:var(--ink);transform:translateY(-2px)}
+  .reveal{opacity:0;transform:translateY(34px);transition:opacity .9s cubic-bezier(.16,.84,.44,1),transform .9s cubic-bezier(.16,.84,.44,1)}
+  .reveal.in{opacity:1;transform:none}
+  .reveal.d1{transition-delay:.08s}.reveal.d2{transition-delay:.16s}.reveal.d3{transition-delay:.24s}
+
+  /* ---------- fixed chrome ---------- */
+  .chrome{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:22px 30px;pointer-events:none}
+  .chrome > *{pointer-events:auto}
+  .chrome .mark img{width:132px;height:auto;filter:drop-shadow(0 2px 14px rgba(0,0,0,.35))}
+  .menu-btn{display:inline-flex;align-items:center;gap:12px;background:none;border:0;color:var(--cream);font:700 12px/1 system-ui,sans-serif;letter-spacing:.2em;text-transform:uppercase;cursor:pointer;text-shadow:0 2px 12px rgba(0,0,0,.4)}
+  .menu-btn .bars{display:inline-flex;flex-direction:column;gap:4px}
+  .menu-btn .bars i{width:26px;height:2px;background:var(--cream);display:block}
+  .statusbar{position:fixed;left:0;right:0;bottom:0;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:11px 30px;background:var(--pink);color:var(--ink);font:700 11px/1 system-ui,sans-serif;letter-spacing:.16em;text-transform:uppercase}
+  .statusbar .dot{width:8px;height:8px;border-radius:50%;background:var(--ink);display:inline-block;margin-right:9px;vertical-align:middle}
+
+  /* ---------- menu overlay ---------- */
+  .navov{position:fixed;inset:0;z-index:300;background:var(--ink);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;opacity:0;pointer-events:none;transition:opacity .4s ease}
+  .navov.open{opacity:1;pointer-events:auto}
+  .navov a.nl{font:800 clamp(38px,9vw,84px)/1 system-ui,sans-serif;letter-spacing:-.02em;text-transform:uppercase;color:var(--cream);opacity:.55;transition:opacity .2s,transform .2s;padding:4px 0}
+  .navov a.nl:hover{opacity:1;transform:translateX(8px)}
+  .navov .close{position:absolute;top:22px;right:30px;background:none;border:0;color:var(--cream);font-size:30px;cursor:pointer;line-height:1}
+  .navov .ov-social{display:flex;gap:22px;margin-top:40px}
+  .navov .ov-social a{opacity:.7}.navov .ov-social a:hover{opacity:1}
+  .navov .ov-social svg{width:22px;height:22px}
+
+  /* ---------- hero ---------- */
+  .hero{position:relative;height:100svh;min-height:620px;overflow:hidden;display:flex;align-items:flex-end}
+  .hero__bg{position:absolute;inset:-8% 0;z-index:0;will-change:transform}
+  .hero__bg img{width:100%;height:100%;object-fit:cover}
+  .hero__scrim{position:absolute;inset:0;z-index:1;background:linear-gradient(180deg,rgba(20,19,18,.45) 0%,rgba(20,19,18,.1) 34%,rgba(20,19,18,.5) 72%,rgba(20,19,18,.96) 100%)}
+  .hero__inner{position:relative;z-index:2;width:100%;padding:0 30px 120px;max-width:1300px;margin:0 auto}
+  .hero__mark{width:min(78vw,760px);height:auto;margin-bottom:26px;filter:drop-shadow(0 10px 40px rgba(0,0,0,.5))}
+  .hero__row{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:24px}
+  .hero__tag{font-size:clamp(17px,2vw,21px);max-width:440px;color:#efece3}
+  .hero__tag b{color:var(--pink);font-weight:700}
+  .hero__cta{display:flex;gap:12px;flex-wrap:wrap}
+  .scrollcue{position:absolute;left:50%;bottom:70px;transform:translateX(-50%);z-index:2;color:var(--cream);font:700 11px/1 system-ui,sans-serif;letter-spacing:.2em;text-transform:uppercase;opacity:.7;display:flex;flex-direction:column;align-items:center;gap:10px}
+  .scrollcue .ln{width:1px;height:34px;background:var(--cream);animation:cue 1.8s ease-in-out infinite}
+  @keyframes cue{0%,100%{transform:scaleY(.4);opacity:.4;transform-origin:top}50%{transform:scaleY(1);opacity:1;transform-origin:top}}
+
+  /* ---------- album ---------- */
+  .album{position:relative;padding:clamp(90px,14vw,190px) 30px;overflow:hidden}
+  .album__wrap{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center}
+  .album__disc{position:relative;justify-self:center;width:min(46vw,460px);aspect-ratio:1}
+  .album__disc img{width:100%;animation:spin 26s linear infinite}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  .album__kicker{font-size:clamp(64px,11vw,150px)}
+  .album__meta{margin:22px 0 30px;color:var(--muted);max-width:430px}
+  .album__cta{display:flex;gap:12px;flex-wrap:wrap}
+  .album__bigword{position:absolute;left:-2%;top:6%;font-size:20vw;color:rgba(243,241,233,.03);z-index:0;pointer-events:none;white-space:nowrap}
+
+  /* ---------- quote / flowing image ---------- */
+  .quote{position:relative;height:96svh;min-height:560px;overflow:hidden;display:flex;align-items:center;justify-content:center;text-align:center}
+  .quote__bg{position:absolute;inset:-12% 0;z-index:0;will-change:transform}
+  .quote__bg img{width:100%;height:100%;object-fit:cover;filter:grayscale(.2)}
+  .quote__scrim{position:absolute;inset:0;z-index:1;background:radial-gradient(60% 60% at 50% 45%,rgba(20,19,18,.25),rgba(20,19,18,.82))}
+  .quote__text{position:relative;z-index:2;padding:0 24px;max-width:1000px}
+  .quote__text q{font-style:italic;font-size:clamp(34px,6vw,74px);line-height:1.08;quotes:none}
+  .quote__by{display:block;margin-top:26px;font:700 12px/1 system-ui,sans-serif;letter-spacing:.24em;text-transform:uppercase;color:var(--pink)}
+
+  /* ---------- about ---------- */
+  .about{padding:clamp(90px,14vw,180px) 30px}
+  .about__wrap{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:0.9fr 1.1fr;gap:clamp(40px,6vw,90px);align-items:center}
+  .about__img{position:relative;overflow:hidden;border-radius:18px;aspect-ratio:4/5}
+  .about__img img{width:100%;height:118%;object-fit:cover;will-change:transform}
+  .about h2{font-size:clamp(40px,6vw,74px);line-height:1;margin:18px 0 24px}
+  .about p{color:var(--muted);margin-bottom:18px;max-width:520px}
+  .about .btn{margin-top:12px}
+
+  /* ---------- tour ---------- */
+  .tour{position:relative;background:var(--purple);color:var(--cream);padding:clamp(80px,12vw,150px) 30px;overflow:hidden}
+  .tour__wrap{max-width:1200px;margin:0 auto;position:relative;z-index:1}
+  .tour__big{font-size:clamp(60px,13vw,180px)}
+  .tour__row{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:30px;margin-top:30px}
+  .tour__dates{display:flex;flex-direction:column;gap:2px;flex:1;min-width:280px}
+  .tour__date{display:flex;gap:18px;align-items:baseline;padding:12px 0;border-bottom:1px solid rgba(243,241,233,.2);font-size:16px}
+  .tour__date .d{font-weight:700;min-width:80px}
+  .tour__date .c{color:rgba(243,241,233,.82)}
+
+  /* ---------- connect ---------- */
+  .connect{padding:clamp(90px,14vw,170px) 30px 40px;text-align:center}
+  .connect h2{font-size:clamp(40px,7vw,86px);line-height:.98;margin-bottom:20px}
+  .connect p{color:var(--muted);max-width:480px;margin:0 auto 30px}
+  .sub{display:flex;gap:10px;max-width:480px;margin:0 auto;flex-wrap:wrap;justify-content:center}
+  .sub input{flex:1;min-width:220px;background:rgba(243,241,233,.06);border:1px solid var(--line);border-radius:999px;padding:15px 22px;color:var(--cream);font-size:15px;outline:none}
+  .sub input:focus{border-color:var(--pink)}
+  .sub button{border:0;cursor:pointer}
+  .sub-msg{min-height:20px;margin-top:14px;font:600 13.5px/1.4 system-ui,sans-serif}
+  footer.foot{padding:60px 30px 90px;text-align:center;border-top:1px solid var(--line);margin-top:70px}
+  .foot .social{display:flex;gap:22px;justify-content:center;margin-bottom:16px}
+  .foot .social a{opacity:.8;transition:opacity .2s,transform .2s}
+  .foot .social a:hover{opacity:1;transform:translateY(-2px)}
+  .foot .social svg{width:22px;height:22px}
+  .foot .flinks{display:flex;gap:20px;justify-content:center;flex-wrap:wrap;margin:16px 0}
+  .foot .flinks a{color:var(--muted);font-size:13px;letter-spacing:.03em}
+  .foot .flinks a:hover{color:var(--cream)}
+  .foot .cp{color:var(--muted);font-size:13px}
+
+  @media (max-width:860px){
+    .album__wrap{grid-template-columns:1fr;gap:36px}
+    .album__disc{width:min(70vw,360px)}
+    .about__wrap{grid-template-columns:1fr;gap:34px}
+    .about__img{aspect-ratio:16/11}
+    .chrome .mark img{width:112px}
+    .hero__inner{padding-bottom:96px}
+    .statusbar .right{display:none}
+  }
+</style>
+</head>
+<body>
+
+  <!-- fixed chrome -->
+  <div class="chrome">
+    <a class="mark" href="../index.html" aria-label="Terrian"><img src="../../assets/images/terrian-script-logo.png" alt="Terrian"></a>
+    <button class="menu-btn" id="menuBtn" aria-label="Open menu">Menu <span class="bars"><i></i><i></i></span></button>
+  </div>
+  <div class="statusbar">
+    <span><span class="dot"></span>Mad Big World — Out Now</span>
+    <span class="right">Terrian · 2026</span>
+  </div>
+
+  <!-- menu overlay -->
+  <nav class="navov" id="navov" aria-label="Main menu">
+    <button class="close" id="navClose" aria-label="Close menu">&#10005;</button>
+    <a class="nl" href="../music/index.html">Music</a>
+    <a class="nl" href="../blog/index.html">Blog</a>
+    <a class="nl" href="../music-1-1/index.html">Tour</a>
+    <a class="nl" href="https://iamterrian.myshopify.com/" target="_blank" rel="noopener">Shop</a>
+    <a class="nl" href="../music-1/index.html">Booking</a>
+    <div class="ov-social" id="ovSocial"></div>
+  </nav>
+
+  <!-- hero -->
+  <header class="hero">
+    <div class="hero__bg" data-parallax="0.22"><img src="../../assets/images/7fef4a69a5dccdd5-terrian-home.jpg" alt="Terrian performing live"></div>
+    <div class="hero__scrim"></div>
+    <div class="hero__inner">
+      <img class="hero__mark reveal" src="../../assets/images/terrian-script-logo.png" alt="Terrian">
+      <div class="hero__row">
+        <p class="hero__tag reveal d1">Gospel artist. Storyteller.<br><b>Mad Big World</b> — the new album, out now.</p>
+        <div class="hero__cta reveal d2">
+          <a class="btn btn--solid" href="../music/index.html">Listen</a>
+          <a class="btn btn--ghost" href="../music-1-1/index.html">Tour Dates</a>
+        </div>
+      </div>
+    </div>
+    <div class="scrollcue"><span>Scroll</span><span class="ln"></span></div>
+  </header>
+
+  <!-- album -->
+  <section class="album">
+    <div class="album__bigword serif" data-parallax="0.10">MAD BIG WORLD</div>
+    <div class="album__wrap">
+      <div class="album__disc reveal"><img src="../../assets/images/mbw-disc.png" alt="Mad Big World picture disc"></div>
+      <div>
+        <p class="eyebrow reveal">The Album</p>
+        <h2 class="album__kicker display reveal d1">Mad<br>Big<br>World</h2>
+        <p class="album__meta reveal d2">A body of work about trusting God’s timing — full of testimony, joy, and honest faith. Stream it now, everywhere you listen.</p>
+        <div class="album__cta reveal d3">
+          <a class="btn btn--solid" href="https://open.spotify.com/artist/19TPpTWkgX13Qc2stbqVoP" target="_blank" rel="noopener">Play on Spotify</a>
+          <a class="btn btn--ghost" href="../music/index.html">All Music</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- quote / flowing image -->
+  <section class="quote">
+    <div class="quote__bg" data-parallax="0.16"><img src="../../assets/images/693d499131480bcf-Screenshot-2025-05-27-at-8_52_43-PM.png" alt="Terrian on stage"></div>
+    <div class="quote__scrim"></div>
+    <div class="quote__text reveal">
+      <q class="serif">Waiting on God is never wasted. He’s always working, even in the silence.</q>
+      <span class="quote__by">— Terrian</span>
+    </div>
+  </section>
+
+  <!-- about -->
+  <section class="about">
+    <div class="about__wrap">
+      <div class="about__img reveal"><img src="../../assets/images/cfa1a0eafbb12259-Screenshot-2025-05-27-at-8_55_35-PM.png" alt="Terrian" data-parallax="0.06" data-parallax-img="1"></div>
+      <div>
+        <p class="eyebrow reveal">The Story</p>
+        <h2 class="serif reveal d1"><em>From a season of waiting.</em></h2>
+        <p class="reveal d2">Terrian’s debut album <b style="color:var(--cream)">Give It Time</b> was born out of learning to trust God’s timing. Since then she’s performed for the GRAMMYs’ Positive Vibes Only, made her national TV debut, and taken the stage at the Grand Ole Opry.</p>
+        <p class="reveal d2">Beyond the music, she pours into the next generation through AngelStreet Memphis — empowering young girls through mentorship and song.</p>
+        <a class="btn btn--ghost reveal d3" href="../blog/index.html">Read the Blog</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- tour -->
+  <section class="tour">
+    <div class="tour__wrap">
+      <p class="eyebrow reveal" style="color:var(--cream);opacity:.8">On Tour</p>
+      <h2 class="tour__big display reveal d1">Live<br>2026</h2>
+      <div class="tour__row">
+        <div class="tour__dates reveal d2">
+          <div class="tour__date"><span class="d">Jul 19</span><span class="c">Angola, NY — Pioneer on the Lake</span></div>
+          <div class="tour__date"><span class="d">Aug 1</span><span class="c">Falls Church, VA — Unshaken Festival</span></div>
+          <div class="tour__date"><span class="d">Aug 13</span><span class="c">New York, NY — K-LOVE Live</span></div>
+        </div>
+        <a class="btn btn--solid reveal d3" href="../music-1-1/index.html">All Tour Dates</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- connect -->
+  <section class="connect">
+    <p class="eyebrow reveal">Stay Connected</p>
+    <h2 class="serif reveal d1"><em>Want more?</em></h2>
+    <p class="reveal d2">Get updates on new shows, new music, and more — straight to your inbox.</p>
+    <form class="sub reveal d2" id="subForm">
+      <input type="email" name="email" placeholder="Enter your email" aria-label="Email" required>
+      <button class="btn btn--solid" type="submit">Subscribe</button>
+    </form>
+    <div class="sub-msg" id="subMsg"></div>
+
+    <footer class="foot">
+      <nav class="social" id="footSocial" aria-label="Terrian on social media"></nav>
+      <div class="flinks">
+        <a href="../music-1/index.html">Booking</a>
+        <a href="../branding/index.html">Branding</a>
+        <a href="../legal/index.html">Legal</a>
+        <a href="../privacy/index.html">Privacy</a>
+      </div>
+      <div class="cp">© 2026 Terrian. All rights reserved.</div>
+    </footer>
+  </section>
+
+<script>
+(function(){
+  var SOC=[
+    ['Instagram','https://www.instagram.com/iamterrian','<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="2.5" y="2.5" width="19" height="19" rx="5.5"/><circle cx="12" cy="12" r="4.3"/><circle cx="17.6" cy="6.4" r="1.15" fill="currentColor" stroke="none"/></svg>'],
+    ['X','https://twitter.com/iamterrian','<svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.9 2.5h3.3l-7.2 8.2L23.7 22h-6.6l-5.2-6.8L5.9 22H2.6l7.7-8.8L.9 2.5h6.8l4.7 6.2 5.5-6.2zm-1.2 17.5h1.8L6.9 4.4H5l12.7 15.6z"/></svg>'],
+    ['YouTube','https://www.youtube.com/channel/UC6bWXuTerKlroiGyS_5uPBw','<svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.5 6.5a3 3 0 0 0-2.1-2.1C19.6 3.9 12 3.9 12 3.9s-7.6 0-9.4.5A3 3 0 0 0 .5 6.5 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.5 3 3 0 0 0 2.1 2.1c1.8.5 9.4.5 9.4.5s7.6 0 9.4-.5a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.5zM9.6 15.6V8.4l6.3 3.6-6.3 3.6z"/></svg>'],
+    ['Spotify','https://open.spotify.com/artist/19TPpTWkgX13Qc2stbqVoP','<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0a12 12 0 1 0 0 24 12 12 0 0 0 0-24zm5.5 17.3a.75.75 0 0 1-1 .25c-2.8-1.7-6.4-2.1-10.5-1.1a.75.75 0 1 1-.33-1.46c4.6-1 8.5-.55 11.6 1.32.35.22.46.68.24 1zm1.47-3.27a.94.94 0 0 1-1.29.31c-3.2-2-8.1-2.5-11.9-1.36a.94.94 0 1 1-.55-1.8c4.3-1.3 9.7-.72 13.4 1.56.44.27.58.85.31 1.29zm.13-3.4C15.3 8.3 8.9 8.1 5.3 9.2a1.13 1.13 0 1 1-.65-2.16C8.8 5.8 15.8 6 20.2 8.6a1.13 1.13 0 0 1-1.16 1.93z"/></svg>']
+  ];
+  function fill(el){ if(!el) return; SOC.forEach(function(s){ var a=document.createElement('a'); a.href=s[1]; a.target='_blank'; a.rel='noopener noreferrer'; a.setAttribute('aria-label',s[0]); a.innerHTML=s[2]; el.appendChild(a); }); }
+  fill(document.getElementById('footSocial')); fill(document.getElementById('ovSocial'));
+
+  /* menu overlay */
+  var ov=document.getElementById('navov');
+  function openM(){ ov.classList.add('open'); document.documentElement.style.overflow='hidden'; }
+  function closeM(){ ov.classList.remove('open'); document.documentElement.style.overflow=''; }
+  document.getElementById('menuBtn').addEventListener('click', openM);
+  document.getElementById('navClose').addEventListener('click', closeM);
+  ov.addEventListener('click', function(e){ if(e.target===ov) closeM(); });
+  document.addEventListener('keydown', function(e){ if((e.key==='Escape')&&ov.classList.contains('open')) closeM(); });
+
+  /* reveal on scroll */
+  var io=new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } }); }, {rootMargin:'0px 0px -8% 0px', threshold:0.08});
+  document.querySelectorAll('.reveal').forEach(function(el){ io.observe(el); });
+
+  /* parallax */
+  var items=[].slice.call(document.querySelectorAll('[data-parallax]'));
+  var reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var ticking=false;
+  function onScroll(){ if(reduce) return; if(!ticking){ ticking=true; requestAnimationFrame(update); } }
+  function update(){ ticking=false; var vh=window.innerHeight;
+    for(var i=0;i<items.length;i++){ var el=items[i]; var r=el.getBoundingClientRect(); var speed=parseFloat(el.getAttribute('data-parallax'))||0.15;
+      if(r.bottom<-240||r.top>vh+240) continue;
+      var mid=r.top+r.height/2; var off=(mid-vh/2); var y=-off*speed;
+      el.style.transform='translate3d(0,'+y.toFixed(1)+'px,0)';
+    }
+  }
+  window.addEventListener('scroll', onScroll, {passive:true}); window.addEventListener('resize', onScroll); update();
+
+  /* subscribe -> function */
+  var form=document.getElementById('subForm'), msg=document.getElementById('subMsg'), busy=false;
+  form.addEventListener('submit', function(e){ e.preventDefault(); if(busy) return;
+    var email=(form.email.value||'').trim();
+    if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){ msg.style.color='#ec9a9a'; msg.textContent='Please enter a valid email.'; return; }
+    busy=true; msg.style.color='#b7b2a6'; msg.textContent='Submitting…';
+    fetch('/.netlify/functions/subscribe',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:email,source:'Home page',reason:'Newsletter / updates'})})
+      .then(function(r){ return r.json().catch(function(){return {ok:r.ok};}); })
+      .then(function(d){ busy=false; if(d&&d.ok){ msg.style.color='#7fd18a'; msg.textContent='Thanks — you’re on the list! ✓'; form.reset(); } else { msg.style.color='#ec9a9a'; msg.textContent=(d&&d.error)||'Something went wrong. Please try again.'; } })
+      .catch(function(){ busy=false; msg.style.color='#ec9a9a'; msg.textContent='Network error. Please try again.'; });
+  });
+})();
+</script>
+</body>
+</html>

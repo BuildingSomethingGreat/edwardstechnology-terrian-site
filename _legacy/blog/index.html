@@ -2181,20 +2181,11 @@ section.wixui-section{top:0 !important;}
             placeWm();
             setTimeout(placeWm, 400); setTimeout(placeWm, 1400);         /* re-align as layout settles */
             window.addEventListener('resize', placeWm);
-            /* Raise the disc+wordmark so the wordmark's top matches home (desktop only). The disc is a
-               grid item with an infinite spin, so shift it with relative `top` (moves it AND its
-               offsetTop, so placeWm keeps the wordmark centred on it). */
-            if(window.matchMedia && window.matchMedia('(min-width:900px)').matches){
-              var raise=function(){
-                circle.style.top='';                             /* measure natural position */
-                placeWm();
-                var wm=document.getElementById('nce-music-wm'); if(!wm) return;
-                var natTop=wm.getBoundingClientRect().top+window.scrollY;
-                var shift=Math.round(natTop-NCE_WM_TOP);
-                if(shift>0){ circle.style.top=(-shift)+'px'; placeWm(); }
-              };
-              setTimeout(raise, 500); setTimeout(raise, 1500); window.addEventListener('resize', raise);
-            }
+            /* Keep the disc at its natural position (rising from behind, its lower edge tucked behind
+               the Spotify embed below). Make sure it sits BEHIND that embed's section. */
+            circle.style.zIndex='0';
+            var spSec=circle.closest('section') && circle.closest('section').nextElementSibling;
+            if(spSec){ if(getComputedStyle(spSec).position==='static') spSec.style.position='relative'; spSec.style.zIndex='1'; }
           }
           return;
         }

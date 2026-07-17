@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Music | Terrian</title>
+<meta name="description" content="Stream Mad Big World and watch Terrian's videos.">
+<link rel="stylesheet" href="/assets/site.css">
+<style>
+  .m-feature{display:grid;grid-template-columns:0.85fr 1.15fr;gap:clamp(30px,5vw,64px);align-items:center;margin-bottom:clamp(40px,7vw,80px)}
+  .m-feature .disc{justify-self:center;width:min(60vw,360px);aspect-ratio:1}
+  .m-feature .disc img{width:100%;animation:spin 26s linear infinite}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  .m-feature h2{font-size:clamp(40px,7vw,84px);line-height:.94;margin:14px 0 20px}
+  .m-feature p{color:var(--muted);max-width:440px;margin-bottom:24px}
+  .m-feature .cta{display:flex;gap:12px;flex-wrap:wrap}
+  .spotify-wrap{border-radius:16px;overflow:hidden;border:1px solid var(--line);background:var(--ink2)}
+  .spotify-wrap iframe{width:100%;height:560px;border:0;display:block}
+  .vid-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:22px;margin-top:22px}
+  .vid{border-radius:14px;overflow:hidden;border:1px solid var(--line);background:#000}
+  .vid .frame{position:relative;aspect-ratio:16/9}
+  .vid iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+  @media (max-width:800px){ .m-feature{grid-template-columns:1fr;gap:30px} .m-feature .disc{width:min(70vw,320px)} }
+</style>
+</head>
+<body data-page="music" data-status="Mad Big World — Out Now" data-foot-cta="Want more?" data-quicklisten="off">
+  <div id="site-preloader"><div class="pl-wm"></div></div>
+  <main>
+    <section class="page-hero"><div class="wrap">
+      <p class="eyebrow reveal">Listen</p>
+      <h1 class="reveal d1">Music</h1>
+      <p class="lead reveal d2">Stream <em>Mad Big World</em> and Terrian’s full catalog — then watch the videos below.</p>
+    </div></section>
+
+    <section class="section" style="padding-top:6px"><div class="wrap">
+      <div class="m-feature reveal">
+        <div class="disc"><img src="/assets/images/mbw-disc.png" alt="Mad Big World picture disc"></div>
+        <div>
+          <p class="eyebrow">The Album</p>
+          <h2 class="display">Mad Big World</h2>
+          <p>A body of work about trusting God’s timing — testimony, joy, and honest faith. Out now, everywhere you listen.</p>
+          <div class="cta">
+            <a class="btn btn--solid" href="https://open.spotify.com/artist/19TPpTWkgX13Qc2stbqVoP" target="_blank" rel="noopener">Play on Spotify</a>
+            <a class="btn btn--ghost" href="https://music.apple.com/us/artist/terrian/1451860719" target="_blank" rel="noopener">Apple Music</a>
+          </div>
+        </div>
+      </div>
+      <div class="spotify-wrap reveal">
+        <iframe src="https://open.spotify.com/embed/artist/19TPpTWkgX13Qc2stbqVoP?utm_source=generator&theme=0" loading="lazy" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" title="Terrian on Spotify"></iframe>
+      </div>
+    </div></section>
+
+    <section class="section"><div class="wrap">
+      <p class="eyebrow reveal">Watch</p>
+      <h2 class="serif reveal d1" style="font-size:clamp(34px,5vw,56px);margin-top:10px"><em>Videos</em></h2>
+      <div class="vid-grid">
+        <div class="vid reveal"><div class="frame"><iframe src="https://www.youtube.com/embed/ijm46OEP0zQ" title="Terrian video" loading="lazy" allow="accelerometer; encrypted-media; picture-in-picture" allowfullscreen></iframe></div></div>
+        <div class="vid reveal d1"><div class="frame"><iframe src="https://www.youtube.com/embed/o4NcCK94_sY" title="Terrian video" loading="lazy" allow="accelerometer; encrypted-media; picture-in-picture" allowfullscreen></iframe></div></div>
+        <div class="vid reveal"><div class="frame"><iframe src="https://www.youtube.com/embed/7FfBvKwk6ps" title="Terrian video" loading="lazy" allow="accelerometer; encrypted-media; picture-in-picture" allowfullscreen></iframe></div></div>
+        <div class="vid reveal d1"><div class="frame"><iframe src="https://www.youtube.com/embed/-Wmw9L2jBg8" title="Terrian video" loading="lazy" allow="accelerometer; encrypted-media; picture-in-picture" allowfullscreen></iframe></div></div>
+      </div>
+    </div></section>
+  </main>
+  <script src="/assets/site.js"></script>
+</body>
+</html>

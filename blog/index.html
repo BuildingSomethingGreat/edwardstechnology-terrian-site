@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Blog | Terrian</title>
+<meta name="description" content="Words and testimony from Terrian.">
+<link rel="stylesheet" href="/assets/site.css">
+<style>
+  .blog-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:26px;margin-top:10px}
+  .blog-state{color:var(--muted);font-size:15px;padding:16px 2px 40px}
+  .card{display:flex;flex-direction:column;border:1px solid var(--line);border-radius:16px;overflow:hidden;background:var(--ink2);color:var(--cream);transition:transform .18s ease,border-color .18s ease}
+  .card:hover{transform:translateY(-3px);border-color:rgba(243,241,233,.32)}
+  .card-img{aspect-ratio:16/10;overflow:hidden;background:#000}
+  .card-img img{width:100%;height:100%;object-fit:cover;display:block}
+  .card-body{padding:20px 22px 24px}
+  .card-date{color:var(--pink);font:700 12px/1 system-ui,sans-serif;letter-spacing:.1em;text-transform:uppercase;margin-bottom:12px}
+  .card-title{font:italic 600 24px/1.22 Georgia,serif;margin:0 0 10px}
+  .card-ex{color:var(--muted);font-size:15px;line-height:1.62;margin:0 0 16px}
+  .card-more{color:var(--cream);font:700 13px/1 system-ui,sans-serif;letter-spacing:.03em}
+</style>
+</head>
+<body data-page="blog" data-status="Blog" data-foot-cta="Want more?">
+  <div id="site-preloader"><div class="pl-wm"></div></div>
+  <main>
+    <section class="page-hero"><div class="wrap">
+      <p class="eyebrow reveal">Blog</p>
+      <h1 class="reveal d1">Words &amp; Testimony</h1>
+      <p class="lead reveal d2">Notes from the road, the studio, and the journey of faith.</p>
+    </div></section>
+    <section class="section" style="padding-top:8px"><div class="wrap">
+      <div id="blogGrid"><div class="blog-state">Loading posts…</div></div>
+    </div></section>
+  </main>
+  <script src="/assets/site.js"></script>
+  <script>
+  (function(){
+    function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+    function fmt(d){ if(!d) return ''; var p=String(d).split('-'); if(p.length!==3) return d;
+      var m=['January','February','March','April','May','June','July','August','September','October','November','December'];
+      return m[(+p[1]-1)]+' '+(+p[2])+', '+p[0]; }
+    var mount=document.getElementById('blogGrid');
+    fetch('/.netlify/functions/posts').then(function(r){return r.json().catch(function(){return{ok:false};});}).then(function(d){
+      if(!d||!d.ok){ mount.innerHTML='<div class="blog-state">'+esc((d&&d.error)||'Couldn’t load posts right now.')+'</div>'; return; }
+      if(!d.posts||!d.posts.length){ mount.innerHTML='<div class="blog-state">No posts yet — check back soon.</div>'; return; }
+      var html='<div class="blog-grid">';
+      d.posts.forEach(function(p){
+        html+='<a class="card reveal" href="/post/?slug='+encodeURIComponent(p.slug)+'">'
+          +(p.cover?'<div class="card-img"><img src="'+esc(p.cover)+'" alt="" loading="lazy"></div>':'')
+          +'<div class="card-body">'
+          +(p.date?'<div class="card-date">'+esc(fmt(p.date))+'</div>':'')
+          +'<h3 class="card-title">'+esc(p.title)+'</h3>'
+          +(p.excerpt?'<p class="card-ex">'+esc(p.excerpt)+'</p>':'')
+          +'<span class="card-more">Read more →</span></div></a>';
+      });
+      html+='</div>'; mount.innerHTML=html;
+      if(window.__armReveals) window.__armReveals();
+    }).catch(function(){ mount.innerHTML='<div class="blog-state">Network error — please try again.</div>'; });
+  })();
+  </script>
+</body>
+</html>

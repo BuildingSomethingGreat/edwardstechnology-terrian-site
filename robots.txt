@@ -1,3 +1,8 @@
 User-agent: *
 Allow: /
-Sitemap: /sitemap.xml
+Disallow: /_legacy/
+Disallow: /legal/
+Disallow: /privacy/
+Disallow: /branding/
+
+Sitemap: https://edwardstechnology-terrian.netlify.app/sitemap.xml

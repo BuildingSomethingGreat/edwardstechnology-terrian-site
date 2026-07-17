@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Booking | Terrian</title>
+<meta name="description" content="Book Terrian, or reach out for press and general inquiries.">
+<link rel="stylesheet" href="/assets/site.css">
+<style>
+  .book-wrap{display:grid;grid-template-columns:1fr 1fr;gap:clamp(36px,6vw,72px);align-items:start}
+  .book-side h2{font:italic 600 clamp(30px,4vw,44px)/1.05 Georgia,serif;margin-bottom:18px}
+  .book-side p{color:var(--muted);margin-bottom:16px;max-width:420px}
+  .contact-line{margin-top:26px}
+  .contact-line .lbl{font:700 11px/1 system-ui,sans-serif;letter-spacing:.2em;text-transform:uppercase;color:var(--pink);margin-bottom:8px}
+  .contact-line a{color:var(--cream);text-decoration:underline;text-underline-offset:3px}
+  form.book{display:flex;flex-direction:column;gap:14px}
+  form.book label{font:700 11px/1 system-ui,sans-serif;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-bottom:-6px}
+  form.book input,form.book select,form.book textarea{background:rgba(243,241,233,.06);border:1px solid var(--line);border-radius:12px;padding:14px 16px;color:var(--cream);font-size:15px;font-family:inherit;outline:none;width:100%}
+  form.book input:focus,form.book select:focus,form.book textarea:focus{border-color:var(--pink)}
+  form.book textarea{min-height:130px;resize:vertical}
+  form.book select{appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%23b7b2a6' d='M6 8 0 0h12z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 16px center}
+  form.book option{color:#141312}
+  form.book .row{display:flex;gap:12px}form.book .row > *{flex:1}
+  form.book button{margin-top:6px;align-self:flex-start}
+  .book-msg{min-height:20px;font:600 14px/1.4 system-ui,sans-serif}
+  @media (max-width:800px){ .book-wrap{grid-template-columns:1fr;gap:34px} }
+</style>
+</head>
+<body data-page="booking" data-status="Let’s Work Together" data-foot-cta="Want more?">
+  <div id="site-preloader"><div class="pl-wm"></div></div>
+  <main>
+    <section class="page-hero"><div class="wrap">
+      <p class="eyebrow reveal">Booking &amp; Contact</p>
+      <h1 class="reveal d1">Let’s work together.</h1>
+      <p class="lead reveal d2">For booking, press, and general inquiries — send a note and the team will get back to you.</p>
+    </div></section>
+    <section class="section" style="padding-top:6px"><div class="wrap">
+      <div class="book-wrap">
+        <div class="book-side reveal">
+          <h2><em>Reach out.</em></h2>
+          <p>Whether it’s a festival, a Sunday service, a K-LOVE stage, or a press feature — we’d love to hear from you. Use the form and choose what it’s about.</p>
+          <div class="contact-line">
+            <div class="lbl">Management</div>
+            <a href="mailto:justin@beourguestmanagement.com">justin@beourguestmanagement.com</a>
+          </div>
+          <div class="contact-line">
+            <div class="lbl">Follow</div>
+            <a href="https://www.instagram.com/iamterrian" target="_blank" rel="noopener">@iamterrian</a>
+          </div>
+        </div>
+        <div class="reveal d1">
+          <form class="book" id="bookForm" novalidate>
+            <label for="bk-name">Name</label>
+            <input id="bk-name" name="name" type="text" placeholder="Your name" required>
+            <label for="bk-email">Email</label>
+            <input id="bk-email" name="email" type="email" placeholder="you@email.com" required>
+            <label for="bk-reason">Reason</label>
+            <select id="bk-reason" name="reason">
+              <option>Booking inquiry</option>
+              <option>Press / media</option>
+              <option>General question</option>
+            </select>
+            <label for="bk-message">Message</label>
+            <textarea id="bk-message" name="message" placeholder="Tell us about the event, date, and location…"></textarea>
+            <button class="btn btn--solid" type="submit">Send Message</button>
+            <div class="book-msg" id="bookMsg"></div>
+          </form>
+        </div>
+      </div>
+    </div></section>
+  </main>
+  <script src="/assets/site.js"></script>
+  <script>
+  (function(){
+    var form=document.getElementById('bookForm'), msg=document.getElementById('bookMsg'), busy=false;
+    form.addEventListener('submit', function(e){ e.preventDefault(); if(busy) return;
+      var name=(form.name.value||'').trim(), email=(form.email.value||'').trim();
+      if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){ msg.style.color='#ec9a9a'; msg.textContent='Please enter a valid email.'; return; }
+      var parts=name.split(/\s+/); var first=parts.shift()||''; var last=parts.join(' ');
+      busy=true; msg.style.color='#b7b2a6'; msg.textContent='Sending…';
+      fetch('/.netlify/functions/subscribe',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({
+        email:email, firstName:first, lastName:last, message:form.message.value||'', reason:form.reason.value||'Booking inquiry', source:'Booking page'})})
+        .then(function(r){ return r.json().catch(function(){return {ok:r.ok};}); })
+        .then(function(d){ busy=false; if(d&&d.ok){ msg.style.color='#7fd18a'; msg.textContent='Thanks — your message is in. We’ll be in touch soon. ✓'; form.reset(); } else { msg.style.color='#ec9a9a'; msg.textContent=(d&&d.error)||'Something went wrong. Please try again.'; } })
+        .catch(function(){ busy=false; msg.style.color='#ec9a9a'; msg.textContent='Network error. Please try again.'; });
+    });
+  })();
+  </script>
+</body>
+</html>

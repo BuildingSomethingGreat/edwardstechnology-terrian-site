@@ -1628,20 +1628,11 @@ section.wixui-section{top:0 !important;}
             placeWm();
             setTimeout(placeWm, 400); setTimeout(placeWm, 1400);         /* re-align as layout settles */
             window.addEventListener('resize', placeWm);
-            /* Raise the disc+wordmark so the wordmark's top matches home (desktop only). The disc is a
-               grid item with an infinite spin, so shift it with relative `top` (moves it AND its
-               offsetTop, so placeWm keeps the wordmark centred on it). */
-            if(window.matchMedia && window.matchMedia('(min-width:900px)').matches){
-              var raise=function(){
-                circle.style.top='';                             /* measure natural position */
-                placeWm();
-                var wm=document.getElementById('nce-music-wm'); if(!wm) return;
-                var natTop=wm.getBoundingClientRect().top+window.scrollY;
-                var shift=Math.round(natTop-NCE_WM_TOP);
-                if(shift>0){ circle.style.top=(-shift)+'px'; placeWm(); }
-              };
-              setTimeout(raise, 500); setTimeout(raise, 1500); window.addEventListener('resize', raise);
-            }
+            /* Keep the disc at its natural position (rising from behind, its lower edge tucked behind
+               the Spotify embed below). Make sure it sits BEHIND that embed's section. */
+            circle.style.zIndex='0';
+            var spSec=circle.closest('section') && circle.closest('section').nextElementSibling;
+            if(spSec){ if(getComputedStyle(spSec).position==='static') spSec.style.position='relative'; spSec.style.zIndex='1'; }
           }
           return;
         }
@@ -1779,5 +1770,62 @@ var revealed=false;function reveal(){if(revealed)return;revealed=true;w.classLis
 function make(){new YT.Player("nce-yt-target",{videoId:"J_wPODTx3xs",host:"https://www.youtube.com",playerVars:{autoplay:1,mute:1,controls:0,modestbranding:1,rel:0,playsinline:1,disablekb:1,fs:0,iv_load_policy:3,cc_load_policy:0},events:{onReady:function(e){try{e.target.mute();e.target.playVideo();}catch(x){}},onStateChange:function(e){if(e.data===1){setTimeout(reveal,3200);}if(e.data===0){try{e.target.seekTo(0);e.target.playVideo();}catch(x){}}}}});}
 setTimeout(reveal,6000);/* safety: never leave the poster up indefinitely */
 if(window.YT&&window.YT.Player){make();}else{var prev=window.onYouTubeIframeAPIReady;window.onYouTubeIframeAPIReady=function(){if(prev)prev();make();};if(!document.querySelector('script[src*="iframe_api"]')){var s=document.createElement("script");s.src="https://www.youtube.com/iframe_api";document.head.appendChild(s);}}
+})();</script>
+
+<style id="nce-ql-css">
+/* Quick Listen — desktop: a pull-tab on the right that opens a side drawer; mobile: a pill that opens a bottom sheet. */
+#nce-ql-tab{position:fixed;right:0;top:50%;transform:translateY(-50%);z-index:60;display:flex;align-items:center;gap:9px;writing-mode:vertical-rl;background:rgba(20,19,18,.62);color:#f3f1e9;border:1px solid rgba(243,241,233,.20);border-right:0;border-radius:14px 0 0 14px;padding:18px 11px 20px;font:700 12px/1 system-ui,-apple-system,sans-serif;letter-spacing:.2em;text-transform:uppercase;cursor:pointer;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);transition:background .2s ease,padding .2s ease}
+#nce-ql-tab:hover{background:rgba(35,32,25,.9);padding-right:15px}
+#nce-ql-tab .dot{writing-mode:horizontal-tb;width:22px;height:22px;border-radius:50%;background:#e29ee3;color:#141312;display:flex;align-items:center;justify-content:center;font-size:11px;flex-shrink:0}
+#nce-ql-fab{display:none}
+#nce-ql-backdrop{position:fixed;inset:0;background:rgba(6,6,6,.55);opacity:0;pointer-events:none;transition:opacity .35s ease;z-index:2090000;-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px)}
+#nce-ql-backdrop.open{opacity:1;pointer-events:auto}
+#nce-ql-drawer{position:fixed;top:0;right:0;height:100%;width:min(430px,92vw);background:#191816;color:#f3f1e9;transform:translateX(101%);transition:transform .42s cubic-bezier(.16,.84,.44,1);z-index:2100000;display:flex;flex-direction:column;box-shadow:-24px 0 70px rgba(0,0,0,.5)}
+#nce-ql-drawer.open{transform:none}
+.nce-ql-head{display:flex;align-items:center;justify-content:space-between;padding:26px 24px 16px;flex-shrink:0}
+.nce-ql-eyebrow{font:700 11px/1 system-ui,sans-serif;letter-spacing:.24em;text-transform:uppercase;color:#e29ee3;margin-bottom:8px}
+.nce-ql-title{font:italic 600 27px/1 Georgia,"Times New Roman",serif}
+.nce-ql-close{width:38px;height:38px;border-radius:50%;border:1px solid rgba(243,241,233,.2);background:transparent;color:#f3f1e9;font-size:19px;line-height:1;cursor:pointer;flex-shrink:0;transition:background .2s}
+.nce-ql-close:hover{background:rgba(243,241,233,.1)}
+.nce-ql-body{flex:1;padding:6px 18px 20px;display:flex;min-height:0}
+.nce-ql-body iframe{width:100%;height:100%;border:0;border-radius:14px}
+.nce-ql-foot{padding:0 24px 22px;flex-shrink:0}
+.nce-ql-foot a{display:inline-flex;align-items:center;gap:8px;color:#141312;background:#f3f1e9;border-radius:999px;padding:11px 18px;font:700 12px/1 system-ui,sans-serif;letter-spacing:.04em;text-transform:uppercase;text-decoration:none;transition:transform .15s}
+.nce-ql-foot a:hover{transform:translateY(-1px)}
+@media (max-width:767px){
+  #nce-ql-tab{display:none}
+  #nce-ql-fab{display:inline-flex;align-items:center;gap:9px;position:fixed;left:50%;bottom:150px;transform:translateX(-50%);z-index:60;background:rgba(20,19,18,.66);color:#f3f1e9;border:1px solid rgba(243,241,233,.22);border-radius:999px;padding:11px 18px;font:700 12px/1 system-ui,sans-serif;letter-spacing:.14em;text-transform:uppercase;cursor:pointer;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
+  #nce-ql-fab .dot{width:20px;height:20px;border-radius:50%;background:#e29ee3;color:#141312;display:flex;align-items:center;justify-content:center;font-size:10px}
+  #nce-ql-drawer{top:auto;right:0;left:0;bottom:0;width:100%;height:76vh;transform:translateY(101%);border-radius:22px 22px 0 0}
+  #nce-ql-drawer.open{transform:none}
+  .nce-ql-drawer-handle{width:44px;height:5px;border-radius:3px;background:rgba(243,241,233,.3);margin:12px auto 0}
+}
+@media (min-width:768px){ .nce-ql-drawer-handle{display:none} }
+</style>
+<script>(function(){
+  if(document.getElementById('nce-ql-drawer')) return;
+  var SP='https://open.spotify.com/embed/artist/19TPpTWkgX13Qc2stbqVoP?utm_source=generator&theme=0';
+  var tab=document.createElement('button'); tab.id='nce-ql-tab'; tab.type='button'; tab.setAttribute('aria-label','Open Quick Listen');
+  tab.innerHTML='<span class="dot">&#9654;</span>Quick&nbsp;Listen';
+  var fab=document.createElement('button'); fab.id='nce-ql-fab'; fab.type='button'; fab.setAttribute('aria-label','Open Quick Listen');
+  fab.innerHTML='<span class="dot">&#9654;</span>Quick&nbsp;Listen';
+  var bk=document.createElement('div'); bk.id='nce-ql-backdrop';
+  var dr=document.createElement('aside'); dr.id='nce-ql-drawer'; dr.setAttribute('aria-label','Quick Listen'); dr.setAttribute('role','dialog'); dr.setAttribute('aria-modal','true');
+  dr.innerHTML='<div class="nce-ql-drawer-handle"></div>'
+    +'<div class="nce-ql-head"><div><div class="nce-ql-eyebrow">Quick Listen</div><div class="nce-ql-title">Now Playing</div></div>'
+    +'<button class="nce-ql-close" type="button" aria-label="Close">&#10005;</button></div>'
+    +'<div class="nce-ql-body"></div>'
+    +'<div class="nce-ql-foot"><a href="https://open.spotify.com/artist/19TPpTWkgX13Qc2stbqVoP" target="_blank" rel="noopener">Open in Spotify &#8599;</a></div>';
+  document.body.appendChild(tab); document.body.appendChild(fab); document.body.appendChild(bk); document.body.appendChild(dr);
+  var loaded=false;
+  function open(){
+    if(!loaded){ var f=document.createElement('iframe'); f.src=SP; f.allow='autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture'; f.loading='lazy'; dr.querySelector('.nce-ql-body').appendChild(f); loaded=true; }
+    bk.classList.add('open'); dr.classList.add('open'); document.documentElement.style.overflow='hidden';
+    document.addEventListener('keydown', esc);
+  }
+  function close(){ bk.classList.remove('open'); dr.classList.remove('open'); document.documentElement.style.overflow=''; document.removeEventListener('keydown', esc); }
+  function esc(e){ if(e.key==='Escape'||e.keyCode===27) close(); }
+  tab.addEventListener('click', open); fab.addEventListener('click', open);
+  bk.addEventListener('click', close); dr.querySelector('.nce-ql-close').addEventListener('click', close);
 })();</script>
 </body></html>

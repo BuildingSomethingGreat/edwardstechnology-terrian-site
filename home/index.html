@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Terrian</title>
+<meta name="description" content="Terrian — Mad Big World. Music, story, and shows.">
+<link rel="stylesheet" href="/assets/site.css">
+<style>
+  /* ---- hero (video) ---- */
+  .hero{position:relative;height:100svh;min-height:620px;overflow:hidden;display:flex;align-items:flex-end}
+  .hero__video{position:absolute;inset:0;z-index:0;overflow:hidden;background:#0d0c0b;pointer-events:none}
+  .hero__video iframe{position:absolute;top:50%;left:50%;width:100vw;height:56.25vw;min-height:100vh;min-width:177.78vh;transform:translate(-50%,-50%) scale(1.35);border:0;pointer-events:none}
+  .hero__poster{position:absolute;inset:0;z-index:1;background:#0d0c0b url(/assets/images/7fef4a69a5dccdd5-terrian-home.jpg) center/cover no-repeat;transition:opacity 1.4s ease}
+  .hero.playing .hero__poster{opacity:0}
+  .hero__scrim{position:absolute;inset:0;z-index:2;background:linear-gradient(180deg,rgba(20,19,18,.5) 0%,rgba(20,19,18,.12) 32%,rgba(20,19,18,.5) 70%,rgba(20,19,18,.96) 100%)}
+  .hero__inner{position:relative;z-index:3;width:100%;max-width:1300px;margin:0 auto;padding:0 30px 118px}
+  .hero__mark{width:min(78vw,760px);height:auto;margin-bottom:26px;filter:drop-shadow(0 10px 40px rgba(0,0,0,.5))}
+  .hero__row{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:24px}
+  .hero__tag{font-size:clamp(17px,2vw,21px);max-width:440px;color:#efece3}
+  .hero__tag b{color:var(--pink);font-weight:700}
+  .hero__cta{display:flex;gap:12px;flex-wrap:wrap}
+  .scrollcue{position:absolute;left:50%;bottom:66px;transform:translateX(-50%);z-index:3;color:var(--cream);font:700 11px/1 system-ui,sans-serif;letter-spacing:.2em;text-transform:uppercase;opacity:.7;display:flex;flex-direction:column;align-items:center;gap:10px}
+  .scrollcue .ln{width:1px;height:34px;background:var(--cream);animation:cue 1.8s ease-in-out infinite;transform-origin:top}
+  @keyframes cue{0%,100%{transform:scaleY(.4);opacity:.4}50%{transform:scaleY(1);opacity:1}}
+
+  /* ---- album ---- */
+  .album{position:relative;padding:clamp(90px,14vw,190px) 30px;overflow:hidden}
+  .album__wrap{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center}
+  .album__disc{position:relative;justify-self:center;width:min(46vw,460px);aspect-ratio:1}
+  .album__disc img{width:100%;animation:spin 26s linear infinite}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  .album__kicker{font-size:clamp(64px,11vw,150px)}
+  .album__meta{margin:22px 0 30px;color:var(--muted);max-width:430px}
+  .album__cta{display:flex;gap:12px;flex-wrap:wrap}
+  .album__bigword{position:absolute;left:-2%;top:6%;font-size:20vw;color:rgba(243,241,233,.03);z-index:0;pointer-events:none;white-space:nowrap;font-family:Georgia,serif}
+
+  /* ---- quote ---- */
+  .quote{position:relative;height:96svh;min-height:560px;overflow:hidden;display:flex;align-items:center;justify-content:center;text-align:center}
+  .quote__bg{position:absolute;inset:-12% 0;z-index:0;will-change:transform}
+  .quote__bg img{width:100%;height:100%;object-fit:cover;filter:grayscale(.2)}
+  .quote__scrim{position:absolute;inset:0;z-index:1;background:radial-gradient(60% 60% at 50% 45%,rgba(20,19,18,.25),rgba(20,19,18,.82))}
+  .quote__text{position:relative;z-index:2;padding:0 24px;max-width:1000px}
+  .quote__text q{font-style:italic;font-size:clamp(34px,6vw,74px);line-height:1.08;quotes:none}
+  .quote__by{display:block;margin-top:26px;font:700 12px/1 system-ui,sans-serif;letter-spacing:.24em;text-transform:uppercase;color:var(--pink)}
+
+  /* ---- about ---- */
+  .about{padding:clamp(90px,14vw,180px) 30px}
+  .about__wrap{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:0.9fr 1.1fr;gap:clamp(40px,6vw,90px);align-items:center}
+  .about__img{position:relative;overflow:hidden;border-radius:18px;aspect-ratio:4/5}
+  .about__img img{width:100%;height:118%;object-fit:cover;will-change:transform}
+  .about h2{font-size:clamp(40px,6vw,74px);line-height:1;margin:18px 0 24px}
+  .about p{color:var(--muted);margin-bottom:18px;max-width:520px}
+  .about .btn{margin-top:12px}
+
+  /* ---- tour ---- */
+  .tour{position:relative;background:var(--purple);color:var(--cream);padding:clamp(80px,12vw,150px) 30px;overflow:hidden}
+  .tour__wrap{max-width:1200px;margin:0 auto;position:relative;z-index:1}
+  .tour__big{font-size:clamp(60px,13vw,180px)}
+  .tour__row{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:30px;margin-top:30px}
+  .tour__dates{display:flex;flex-direction:column;gap:2px;flex:1;min-width:280px}
+  .tour__date{display:flex;gap:18px;align-items:baseline;padding:12px 0;border-bottom:1px solid rgba(243,241,233,.2);font-size:16px}
+  .tour__date .d{font-weight:700;min-width:80px}
+  .tour__date .c{color:rgba(243,241,233,.82)}
+
+  @media (max-width:860px){
+    .album__wrap{grid-template-columns:1fr;gap:36px}
+    .album__disc{width:min(70vw,360px)}
+    .about__wrap{grid-template-columns:1fr;gap:34px}
+    .about__img{aspect-ratio:16/11}
+    .hero__inner{padding-bottom:96px}
+  }
+</style>
+</head>
+<body data-page="home" data-status="Mad Big World — Out Now" data-foot-cta="Want more?">
+  <div id="site-preloader"><div class="pl-wm"></div></div>
+
+  <!-- hero -->
+  <header class="hero" id="hero">
+    <div class="hero__video"><div id="heroYT"></div></div>
+    <div class="hero__poster"></div>
+    <div class="hero__scrim"></div>
+    <div class="hero__inner">
+      <img class="hero__mark reveal" src="/assets/images/terrian-script-logo.png" alt="Terrian">
+      <div class="hero__row">
+        <p class="hero__tag reveal d1">Gospel artist. Storyteller.<br><b>Mad Big World</b> — the new album, out now.</p>
+        <div class="hero__cta reveal d2">
+          <a class="btn btn--solid" href="/music/">Listen</a>
+          <a class="btn btn--ghost" href="/tour/">Tour Dates</a>
+        </div>
+      </div>
+    </div>
+    <div class="scrollcue"><span>Scroll</span><span class="ln"></span></div>
+  </header>
+
+  <!-- album -->
+  <section class="album">
+    <div class="album__bigword" data-parallax="0.10">MAD BIG WORLD</div>
+    <div class="album__wrap">
+      <div class="album__disc reveal"><img src="/assets/images/mbw-disc.png" alt="Mad Big World picture disc"></div>
+      <div>
+        <p class="eyebrow reveal">The Album</p>
+        <h2 class="album__kicker display reveal d1">Mad<br>Big<br>World</h2>
+        <p class="album__meta reveal d2">A body of work about trusting God’s timing — full of testimony, joy, and honest faith. Stream it now, everywhere you listen.</p>
+        <div class="album__cta reveal d3">
+          <a class="btn btn--solid" href="https://open.spotify.com/artist/19TPpTWkgX13Qc2stbqVoP" target="_blank" rel="noopener">Play on Spotify</a>
+          <a class="btn btn--ghost" href="/music/">All Music</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- quote -->
+  <section class="quote">
+    <div class="quote__bg" data-parallax="0.16"><img src="/assets/images/693d499131480bcf-Screenshot-2025-05-27-at-8_52_43-PM.png" alt="Terrian on stage"></div>
+    <div class="quote__scrim"></div>
+    <div class="quote__text reveal">
+      <q class="serif">Waiting on God is never wasted. He’s always working, even in the silence.</q>
+      <span class="quote__by">— Terrian</span>
+    </div>
+  </section>
+
+  <!-- about -->
+  <section class="about">
+    <div class="about__wrap">
+      <div class="about__img reveal"><img src="/assets/images/cfa1a0eafbb12259-Screenshot-2025-05-27-at-8_55_35-PM.png" alt="Terrian" data-parallax="0.06"></div>
+      <div>
+        <p class="eyebrow reveal">The Story</p>
+        <h2 class="serif reveal d1"><em>From a season of waiting.</em></h2>
+        <p class="reveal d2">Terrian’s debut album <b style="color:var(--cream)">Give It Time</b> was born out of learning to trust God’s timing. Since then she’s performed for the GRAMMYs’ Positive Vibes Only, made her national TV debut, and taken the stage at the Grand Ole Opry.</p>
+        <p class="reveal d2">Beyond the music, she pours into the next generation through AngelStreet Memphis — empowering young girls through mentorship and song.</p>
+        <a class="btn btn--ghost reveal d3" href="/blog/">Read the Blog</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- tour -->
+  <section class="tour">
+    <div class="tour__wrap">
+      <p class="eyebrow reveal" style="color:var(--cream);opacity:.8">On Tour</p>
+      <h2 class="tour__big display reveal d1">Live<br>2026</h2>
+      <div class="tour__row">
+        <div class="tour__dates reveal d2">
+          <div class="tour__date"><span class="d">Jul 19</span><span class="c">Angola, NY — Pioneer on the Lake</span></div>
+          <div class="tour__date"><span class="d">Aug 1</span><span class="c">Falls Church, VA — Unshaken Festival</span></div>
+          <div class="tour__date"><span class="d">Aug 13</span><span class="c">New York, NY — K-LOVE Live</span></div>
+        </div>
+        <a class="btn btn--solid reveal d3" href="/tour/">All Tour Dates</a>
+      </div>
+    </div>
+  </section>
+
+<script src="/assets/site.js"></script>
+<script>
+/* hero video — chromeless, stretched to cover so no YouTube UI shows */
+(function(){
+  var hero=document.getElementById('hero'), revealed=false;
+  function reveal(){ if(revealed) return; revealed=true; hero.classList.add('playing'); }
+  function make(){ new YT.Player('heroYT',{videoId:'3eNdX4GbtbE',host:'https://www.youtube.com',
+    playerVars:{autoplay:1,mute:1,controls:0,modestbranding:1,rel:0,playsinline:1,disablekb:1,fs:0,iv_load_policy:3,cc_load_policy:0},
+    events:{onReady:function(e){try{e.target.mute();e.target.playVideo();}catch(x){}},
+      onStateChange:function(e){ if(e.data===1){ setTimeout(reveal,3000); } if(e.data===0){ try{e.target.seekTo(0);e.target.playVideo();}catch(x){} } }}}); }
+  setTimeout(reveal,6000);
+  if(window.YT&&window.YT.Player){ make(); } else { var prev=window.onYouTubeIframeAPIReady; window.onYouTubeIframeAPIReady=function(){ if(prev)prev(); make(); };
+    if(!document.querySelector('script[src*="iframe_api"]')){ var s=document.createElement('script'); s.src='https://www.youtube.com/iframe_api'; document.head.appendChild(s); } }
+})();
+</script>
+</body>
+</html>

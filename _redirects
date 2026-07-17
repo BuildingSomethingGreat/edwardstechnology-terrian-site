@@ -1,3 +1,20 @@
-# The site lives under /terrian/ (matches the original edwardstechnology.wixstudio.com/terrian).
-# Send the bare root there.
-/    /terrian/    302
+# Terrian — new site lives at the root. Old Wix theme is archived under /_legacy/.
+
+# Legacy public URLs (from the previous /terrian/* structure) -> new pages
+/terrian/post/trusting-god-s-timing-my-journey-with-give-it-time  /post/?slug=trusting-gods-timing  301
+/terrian/post/*        /blog/       301
+/terrian/home          /home/       301
+/terrian/home/*        /home/       301
+/terrian/music-1-1/*   /tour/       301
+/terrian/music-1/*     /booking/    301
+/terrian/music/*       /music/      301
+/terrian/videos/*      /music/      301
+/terrian/blog/*        /blog/       301
+/terrian/legal/*       /legal/      301
+/terrian/privacy/*     /privacy/    301
+/terrian/branding/*    /branding/   301
+/terrian               /            301
+/terrian/*             /            301
+
+# Keep the archived theme out of the public site
+/_legacy/*             /            302

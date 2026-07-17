@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>terrian/index.html</loc></url>
-  <url><loc>terrian/blog/index.html</loc></url>
-  <url><loc>terrian/home/index.html</loc></url>
-  <url><loc>terrian/music/index.html</loc></url>
-  <url><loc>terrian/music-1/index.html</loc></url>
-  <url><loc>terrian/music-1-1/index.html</loc></url>
-  <url><loc>terrian/post/trusting-god-s-timing-my-journey-with-give-it-time/index.html</loc></url>
-  <url><loc>terrian/videos/index.html</loc></url>
+  <url><loc>https://edwardstechnology-terrian.netlify.app/</loc></url>
+  <url><loc>https://edwardstechnology-terrian.netlify.app/home/</loc></url>
+  <url><loc>https://edwardstechnology-terrian.netlify.app/music/</loc></url>
+  <url><loc>https://edwardstechnology-terrian.netlify.app/blog/</loc></url>
+  <url><loc>https://edwardstechnology-terrian.netlify.app/tour/</loc></url>
+  <url><loc>https://edwardstechnology-terrian.netlify.app/booking/</loc></url>
 </urlset>
