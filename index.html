@@ -17,6 +17,11 @@
   .lp-top{position:fixed;top:0;left:0;right:0;z-index:6;display:flex;align-items:center;justify-content:space-between;padding:24px 30px;gap:18px}
   .lp-support{font:700 12px/1 system-ui,sans-serif;letter-spacing:.08em;text-transform:uppercase;color:var(--ink);background:var(--cream);border-radius:999px;padding:12px 20px;transition:transform .16s}
   .lp-support:hover{transform:translateY(-2px)}
+  .lp-mark{display:none;line-height:0}
+  .lp-mark img{width:112px;height:auto;filter:drop-shadow(0 2px 14px rgba(0,0,0,.4))}
+  .lp-menu-btn{display:none;align-items:center;gap:11px;background:none;border:0;color:var(--cream);font:700 12px/1 system-ui,sans-serif;letter-spacing:.2em;text-transform:uppercase;cursor:pointer;text-shadow:0 2px 12px rgba(0,0,0,.45)}
+  .lp-menu-btn .bars{display:inline-flex;flex-direction:column;gap:4px}
+  .lp-menu-btn .bars i{width:26px;height:2px;background:var(--cream);display:block}
   .lp-nav{display:flex;flex-wrap:wrap;align-items:center;gap:clamp(18px,2.2vw,34px)}
   .lp-nav a{font:800 clamp(17px,1.6vw,22px)/1 system-ui,-apple-system,sans-serif; font-size: 30px; text-transform:uppercase;letter-spacing:.02em;color:var(--cream);opacity:.9;transition:opacity .2s,color .2s;}
   .lp-nav a:hover{opacity:1;color:var(--pink)}
@@ -30,9 +35,10 @@
   .lp-social svg{width:21px;height:21px}
   .lp-cp{color:rgba(243,241,233,.7);font-size:13px}
   @media (max-width:767px){
+    .lp-nav{display:none}          /* horizontal nav is desktop-only */
     .lp-support{display:none}
-    .lp-nav{gap:12px 16px}
-    .lp-nav a{font-size:16px}
+    .lp-mark{display:block}        /* mobile: wordmark + hamburger -> vertical menu */
+    .lp-menu-btn{display:inline-flex}
     .lp-bottom{flex-direction:column;gap:14px;padding-bottom:calc(var(--status-h) + 78px)}
     .lp-cp{order:3}
   }
@@ -46,6 +52,7 @@
   <div class="lp-scrim"></div>
 
   <div class="lp-top">
+    <a class="lp-mark" href="/home/" data-nl aria-label="Terrian home"><img src="/assets/images/terrian-script-logo.png" alt="Terrian"></a>
     <nav class="lp-nav" aria-label="Main menu">
       <a href="/home/" data-nl>Home</a>
       <a href="/music/" data-nl>Music</a>
@@ -54,6 +61,7 @@
       <a href="https://iamterrian.myshopify.com/" target="_blank" rel="noopener">Shop</a>
     </nav>
     <a class="lp-support" href="https://angelstreetmemphis.org/" target="_blank" rel="noopener">Support AngelStreet</a>
+    <button class="lp-menu-btn" id="lpMenuBtn" aria-label="Open menu">Menu <span class="bars"><i></i><i></i></span></button>
   </div>
 
   <div class="lp-bottom">
@@ -77,6 +85,21 @@
     ];
     var s=document.getElementById('lpSocial');
     SOC.forEach(function(x){ var a=document.createElement('a'); a.href=x[1]; a.target='_blank'; a.rel='noopener noreferrer'; a.setAttribute('aria-label',x[0]); a.innerHTML=x[2]; s.appendChild(a); });
+
+    /* mobile menu overlay (horizontal nav is desktop-only; mobile uses this vertical menu) */
+    var socHTML=SOC.map(function(x){return '<a href="'+x[1]+'" target="_blank" rel="noopener noreferrer" aria-label="'+x[0]+'">'+x[2]+'</a>';}).join('');
+    var navov=document.createElement('nav'); navov.className='navov'; navov.setAttribute('aria-label','Menu');
+    navov.innerHTML='<button class="close" type="button" aria-label="Close menu">&#10005;</button>'
+      +'<a class="nl" href="/home/">Home</a><a class="nl" href="/music/">Music</a><a class="nl" href="/blog/">Blog</a><a class="nl" href="/tour/">Tour</a>'
+      +'<a class="nl" href="https://iamterrian.myshopify.com/" target="_blank" rel="noopener">Shop</a>'
+      +'<div class="ov-social">'+socHTML+'</div>';
+    document.body.appendChild(navov);
+    function lpMclose(){ navov.classList.remove('open'); document.documentElement.style.overflow=''; }
+    var mb=document.getElementById('lpMenuBtn');
+    if(mb) mb.addEventListener('click', function(){ navov.classList.add('open'); document.documentElement.style.overflow='hidden'; });
+    navov.querySelector('.close').addEventListener('click', lpMclose);
+    navov.addEventListener('click', function(e){ if(e.target===navov) lpMclose(); });
+    document.addEventListener('keydown', function(e){ if(e.key==='Escape'||e.keyCode===27) lpMclose(); });
 
     /* if shown inside the desktop menu overlay iframe: links navigate the top window, and
        hide the Support button so it doesn't collide with the overlay's close button */
