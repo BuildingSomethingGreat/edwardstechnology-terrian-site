@@ -12,7 +12,7 @@
   .hero{position:relative;height:100svh;min-height:620px;overflow:hidden;display:flex;align-items:flex-end}
   .hero__video{position:absolute;inset:0;z-index:0;overflow:hidden;background:#0d0c0b;pointer-events:none}
   .hero__video iframe{position:absolute;top:50%;left:50%;width:100vw;height:56.25vw;min-height:100vh;min-width:177.78vh;transform:translate(-50%,-50%) scale(1.35);border:0;pointer-events:none}
-  .hero__poster{position:absolute;inset:0;z-index:1;background:#0d0c0b url(/assets/images/7fef4a69a5dccdd5-terrian-home.jpg) center/cover no-repeat;transition:opacity 1.4s ease}
+  .hero__poster{position:absolute;inset:0;z-index:1;background:#0d0c0b url(/assets/images/terrian-updated.png) center/cover no-repeat;transition:opacity 1.4s ease}
   .hero.playing .hero__poster{opacity:0}
   .hero__scrim{position:absolute;inset:0;z-index:2;background:linear-gradient(180deg,rgba(20,19,18,.5) 0%,rgba(20,19,18,.12) 32%,rgba(20,19,18,.5) 70%,rgba(20,19,18,.96) 100%)}
   .hero__inner{position:relative;z-index:3;width:100%;max-width:1300px;margin:0 auto;padding:0 30px 118px}
@@ -112,7 +112,7 @@
 
   <!-- quote -->
   <section class="quote">
-    <div class="quote__bg" data-parallax="0.16"><img src="/assets/images/693d499131480bcf-Screenshot-2025-05-27-at-8_52_43-PM.png" alt="Terrian on stage"></div>
+    <div class="quote__bg" data-parallax="0.16"><img src="/assets/images/terrian-updated-2.jpeg" alt="Terrian on stage"></div>
     <div class="quote__scrim"></div>
     <div class="quote__text reveal">
       <q class="serif">Waiting on God is never wasted. He’s always working, even in the silence.</q>
@@ -156,7 +156,7 @@
 (function(){
   var hero=document.getElementById('hero'), revealed=false;
   function reveal(){ if(revealed) return; revealed=true; hero.classList.add('playing'); }
-  function make(){ new YT.Player('heroYT',{videoId:'3eNdX4GbtbE',host:'https://www.youtube.com',
+  function make(){ new YT.Player('heroYT',{videoId:'ijm46OEP0zQ',host:'https://www.youtube.com',
     playerVars:{autoplay:1,mute:1,controls:0,modestbranding:1,rel:0,playsinline:1,disablekb:1,fs:0,iv_load_policy:3,cc_load_policy:0},
     events:{onReady:function(e){try{e.target.mute();e.target.playVideo();}catch(x){}},
       onStateChange:function(e){ if(e.data===1){ setTimeout(reveal,3000); } if(e.data===0){ try{e.target.seekTo(0);e.target.playVideo();}catch(x){} } }}}); }
