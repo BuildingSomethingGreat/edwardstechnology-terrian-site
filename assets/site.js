@@ -13,7 +13,7 @@
     ['Music','/music/','music'],
     ['Blog','/blog/','blog'],
     ['Tour','/tour/','tour'],
-    ['Shop','https://iamterrian.myshopify.com/','shop'],
+    ['Shop','/shop/','shop'],
     ['Booking','/booking/','booking']
   ];
   var SOC=[

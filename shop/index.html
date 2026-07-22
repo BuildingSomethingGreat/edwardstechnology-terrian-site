@@ -1,0 +1,496 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Shop | Terrian</title>
+<meta name="description" content="Official Terrian merch — apparel, accessories, and music.">
+<link rel="stylesheet" href="/assets/site.css">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<style>
+  .shop-hero{padding:calc(var(--chrome-h) + 56px) 0 20px}
+  .shop-hero .wrap{max-width:1200px}
+  .shop-hero h1{font-weight:800;letter-spacing:-.02em;text-transform:uppercase;line-height:.9;font-size:clamp(64px,14vw,190px);margin-top:10px}
+  .shop-hero .sub{color:var(--muted);max-width:520px;margin-top:18px;font-size:18px}
+  .shop-hero .note{display:inline-flex;align-items:center;gap:8px;margin-top:18px;font:700 11px/1 system-ui,sans-serif;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+  .shop-hero .note .lock{width:7px;height:7px;border-radius:50%;background:var(--pink)}
+  /* marquee */
+  .marquee{overflow:hidden;border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--pink);color:var(--ink);margin-top:34px}
+  .marquee__row{display:flex;white-space:nowrap;will-change:transform;animation:mq 26s linear infinite}
+  .marquee__row > div{display:flex;align-items:center;padding:12px 0}
+  .marquee span{font:800 14px/1 system-ui,sans-serif;letter-spacing:.14em;text-transform:uppercase;padding:0 22px}
+  .marquee .dot{padding:0}
+  @keyframes mq{to{transform:translateX(-50%)}}
+  @media (prefers-reduced-motion:reduce){.marquee__row{animation:none}}
+  /* featured */
+  .featured{padding:clamp(60px,9vw,110px) 0}
+  .featured__wrap{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1.05fr .95fr;gap:clamp(30px,5vw,70px);align-items:center}
+  .featured__img{position:relative;border-radius:18px;overflow:hidden;aspect-ratio:4/5;background:var(--ink2)}
+  .featured__img img{width:100%;height:100%;object-fit:cover}
+  .featured__tag{position:absolute;top:16px;left:16px;background:var(--ink);color:var(--cream);font:700 11px/1 system-ui,sans-serif;letter-spacing:.16em;text-transform:uppercase;padding:9px 14px;border-radius:999px}
+  .featured h2{font-size:clamp(38px,5.5vw,72px);line-height:.98;margin:16px 0 18px}
+  .featured p{color:var(--muted);max-width:440px;margin-bottom:22px}
+  .featured .fp{display:flex;align-items:baseline;gap:12px;font-size:24px;margin-bottom:26px}
+  .featured .fp .was{color:var(--muted);text-decoration:line-through;font-size:18px}
+  .featured .fp .now{font-weight:700}
+  /* filters */
+  .shop-bar{max-width:1200px;margin:0 auto;padding:0 30px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+  .shop-bar h2{font-weight:800;text-transform:uppercase;letter-spacing:-.01em;font-size:clamp(28px,4vw,44px)}
+  .filters{display:flex;gap:8px;flex-wrap:wrap}
+  .filter{background:transparent;border:1px solid var(--line);color:var(--cream);border-radius:999px;padding:10px 18px;font:700 12px/1 system-ui,sans-serif;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;transition:background .18s,color .18s,border-color .18s}
+  .filter:hover{border-color:rgba(243,241,233,.4)}
+  .filter.is-active{background:var(--cream);color:var(--ink);border-color:var(--cream)}
+  /* grid */
+  .pgrid{max-width:1200px;margin:26px auto 0;padding:0 30px;display:grid;grid-template-columns:repeat(3,1fr);gap:28px 26px}
+  .pc{display:flex;flex-direction:column;color:var(--cream)}
+  .pc__img{position:relative;border-radius:14px;overflow:hidden;aspect-ratio:4/5;background:var(--ink2)}
+  .pc__img img{width:100%;height:100%;object-fit:cover;transition:transform .5s cubic-bezier(.16,.84,.44,1),opacity .4s ease}
+  .pc__img img.alt{position:absolute;inset:0;opacity:0}
+  .pc:hover .pc__img img{transform:scale(1.04)}
+  .pc:hover .pc__img img.alt{opacity:1}
+  .pc__badge{position:absolute;top:12px;left:12px;background:var(--pink);color:var(--ink);font:700 10px/1 system-ui,sans-serif;letter-spacing:.12em;text-transform:uppercase;padding:7px 11px;border-radius:999px}
+  .pc__badge--out{background:rgba(20,19,18,.82);color:var(--cream)}
+  .pc__view{position:absolute;left:12px;bottom:12px;background:var(--cream);color:var(--ink);font:700 11px/1 system-ui,sans-serif;letter-spacing:.06em;text-transform:uppercase;padding:10px 15px;border-radius:999px;opacity:0;transform:translateY(8px);transition:opacity .24s ease,transform .24s ease}
+  .pc:hover .pc__view{opacity:1;transform:none}
+  .pc__info{padding:14px 2px 0}
+  .pc__cat{font:700 11px/1 system-ui,sans-serif;letter-spacing:.14em;text-transform:uppercase;color:var(--pink)}
+  .pc__title{font:italic 600 20px/1.2 Georgia,serif;margin:8px 0 8px}
+  .pc__price{display:flex;gap:10px;align-items:baseline;font-size:16px}
+  .pc__price .was{color:var(--muted);text-decoration:line-through;font-size:14px}
+  .pc__price .now{font-weight:700}
+  .pc.is-hidden{display:none}
+  @media (max-width:920px){ .featured__wrap{grid-template-columns:1fr;gap:28px} .pgrid{grid-template-columns:repeat(2,1fr);gap:24px 18px} }
+  @media (max-width:560px){ .pgrid{grid-template-columns:1fr 1fr;gap:18px 14px} .pc__title{font-size:17px} }
+  /* ---- drop / countdown ---- */
+  .drop{position:relative;overflow:hidden;border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:clamp(60px,9vw,110px) 0;background:radial-gradient(120% 90% at 82% 6%,rgba(226,158,227,.16),transparent 58%),radial-gradient(90% 80% at 8% 100%,rgba(90,45,122,.30),transparent 55%),var(--ink)}
+  .drop__wrap{max-width:1200px;margin:0 auto;padding:0 30px;display:grid;grid-template-columns:.82fr 1.18fr;gap:clamp(30px,5vw,64px);align-items:center}
+  .drop__media{position:relative;border-radius:18px;overflow:hidden;aspect-ratio:4/5;background:var(--ink2)}
+  .drop__media img{width:100%;height:100%;object-fit:cover}
+  .drop__pill{position:absolute;top:16px;left:16px;background:var(--pink);color:var(--ink);font:800 11px/1 system-ui,sans-serif;letter-spacing:.16em;text-transform:uppercase;padding:9px 14px;border-radius:999px}
+  .drop__title{font-weight:800;text-transform:uppercase;letter-spacing:-.02em;line-height:.92;font-size:clamp(40px,6.5vw,92px);margin:14px 0 12px}
+  .drop__sub{color:var(--muted);max-width:440px;margin-bottom:26px}
+  .drop__count{display:flex;align-items:flex-start;gap:clamp(6px,1.4vw,16px);margin-bottom:30px}
+  .drop__count .cu{display:flex;flex-direction:column;align-items:center;min-width:clamp(56px,9vw,102px)}
+  .drop__count .n{font:800 clamp(40px,7vw,86px)/1 system-ui,-apple-system,sans-serif;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+  .drop__count .l{font:700 11px/1 system-ui,sans-serif;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-top:10px}
+  .drop__count .sep{font:800 clamp(32px,6vw,72px)/1 system-ui,sans-serif;color:var(--pink);opacity:.55;padding-top:2px}
+  .drop__form{display:flex;gap:10px;max-width:460px;flex-wrap:wrap}
+  .drop__form input{flex:1;min-width:220px;background:rgba(243,241,233,.06);border:1px solid var(--line);border-radius:999px;padding:15px 22px;color:var(--cream);font-size:15px;outline:none}
+  .drop__form input:focus{border-color:var(--pink)}
+  .drop__msg{min-height:20px;margin-top:12px;font:600 13.5px/1.4 system-ui,sans-serif}
+  .drop__live{display:none;gap:12px;flex-wrap:wrap;align-items:center}
+  .drop__live span{color:var(--muted);font-size:14px}
+  .drop.is-live .drop__form{display:none}
+  .drop.is-live .drop__live{display:flex}
+  .drop.is-live .drop__pill{background:#7fd18a}
+  @media (max-width:820px){ .drop__wrap{grid-template-columns:1fr;gap:28px} .drop__media{max-width:360px} }
+  /* ---- sticky mini countdown ---- */
+  .dropmini{position:fixed;left:0;right:0;bottom:0;z-index:180;transform:translateY(130%);transition:transform .45s cubic-bezier(.16,.84,.44,1);background:rgba(20,19,18,.9);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);border-top:1px solid var(--line)}
+  .dropmini.show{transform:translateY(0)}
+  .dropmini__in{max-width:1200px;margin:0 auto;padding:11px 30px calc(11px + var(--status-h));display:flex;align-items:center;gap:16px}
+  .dm__thumb{width:44px;height:52px;border-radius:8px;object-fit:cover;flex-shrink:0}
+  .dm__info{display:flex;flex-direction:column;gap:3px;min-width:0}
+  .dm__label{font:800 10px/1 system-ui,sans-serif;letter-spacing:.16em;text-transform:uppercase;color:var(--pink)}
+  .dm__name{font:italic 600 16px/1 Georgia,serif;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .dm__count{margin-left:auto;font:800 18px/1 system-ui,sans-serif;font-variant-numeric:tabular-nums;white-space:nowrap}
+  .dm__count small{color:var(--muted);font-size:12px;font-weight:700;margin:0 6px 0 1px}
+  .dm__cta{flex-shrink:0;background:var(--cream);color:var(--ink);border:0;border-radius:999px;padding:12px 20px;font:700 12px/1 system-ui,sans-serif;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;text-decoration:none;white-space:nowrap;transition:transform .15s}
+  .dm__cta:hover{transform:translateY(-1px)}
+  @media (max-width:600px){ .dropmini__in{gap:11px;padding:10px 16px calc(10px + var(--status-h))} .dm__thumb{width:38px;height:44px} .dm__count{font-size:15px} .dm__cta{padding:11px 15px} .dm__info{display:none} }
+</style>
+</head>
+<body data-page="shop" data-status="Official Merch — Shop Now" data-foot-cta="Wear the message." data-quicklisten="off">
+  <div id="site-preloader"><div class="pl-wm"></div></div>
+  <main>
+    <section class="shop-hero"><div class="wrap">
+      <p class="eyebrow reveal">The Shop</p>
+      <h1 class="reveal d1">Merch</h1>
+      <p class="sub reveal d2">Official Terrian apparel, accessories, and music. Wear the testimony.</p>
+      <div class="note reveal d2"><span class="lock"></span>Secure checkout on Shopify</div>
+    </div></section>
+
+    <div class="marquee reveal"><div class="marquee__row"><div><span>Official Merch</span><span class="dot">&bull;</span> <span>Mad Big World</span><span class="dot">&bull;</span> <span>Ships Worldwide</span><span class="dot">&bull;</span> <span>New Drop</span><span class="dot">&bull;</span> <span>Wear the Testimony</span><span class="dot">&bull;</span></div><div aria-hidden="true"><span>Official Merch</span><span class="dot">&bull;</span> <span>Mad Big World</span><span class="dot">&bull;</span> <span>Ships Worldwide</span><span class="dot">&bull;</span> <span>New Drop</span><span class="dot">&bull;</span> <span>Wear the Testimony</span><span class="dot">&bull;</span></div></div></div>
+
+    <section class="drop" id="drop">
+      <div class="drop__wrap">
+        <div class="drop__media reveal"><span class="drop__pill" id="dropPill">The Drop</span><img id="dropImg" src="https://cdn.shopify.com/s/files/1/0624/0911/3837/files/MERCH-11.jpg?v=1779048399" alt="The drop"></div>
+        <div>
+          <p class="eyebrow reveal">Dropping Soon</p>
+          <h2 class="drop__title reveal d1" id="dropTitle">Honestly Hoodie</h2>
+          <p class="drop__sub reveal d1" id="dropSub">A limited sage restock. Set a reminder and be first in line the moment it drops.</p>
+          <div class="drop__count reveal d2" id="dropCount" aria-live="polite">
+            <div class="cu"><span class="n" data-d>--</span><span class="l">Days</span></div><div class="sep">:</div>
+            <div class="cu"><span class="n" data-h>--</span><span class="l">Hrs</span></div><div class="sep">:</div>
+            <div class="cu"><span class="n" data-m>--</span><span class="l">Min</span></div><div class="sep">:</div>
+            <div class="cu"><span class="n" data-s>--</span><span class="l">Sec</span></div>
+          </div>
+          <form class="drop__form reveal d2" id="dropForm" novalidate>
+            <input type="email" name="email" placeholder="Email me when it drops" aria-label="Email" required>
+            <button class="btn btn--solid" type="submit">Notify Me</button>
+          </form>
+          <div class="drop__msg" id="dropMsg"></div>
+          <div class="drop__live reveal d2" id="dropLive">
+            <a class="btn btn--solid" id="dropLiveBtn" href="https://iamterrian.myshopify.com/products/honestly-hoodie-sage" target="_blank" rel="noopener">Shop the drop &rarr;</a>
+            <span>It’s live — grab it before it’s gone.</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="featured">
+      <div class="featured__wrap">
+        <div class="featured__img reveal"><span class="featured__tag">Featured</span><img src="https://cdn.shopify.com/s/files/1/0624/0911/3837/files/MERCH-6.jpg?v=1779047401" alt="King of kings Jersey"></div>
+        <div>
+          <p class="eyebrow reveal">Apparel</p>
+          <h2 class="display reveal d1">King of kings Jersey</h2>
+          <p class="reveal d2">3.6 oz., 100% polyester mesh body with PosiCharge technology 4.1 oz., 100% polyester dazzle yoke and sleeves with PosiCharge technology True athletic-looking je</p>
+          <div class="fp reveal d2"><span class="now">$55</span></div>
+          <a class="btn btn--solid reveal d3" href="https://iamterrian.myshopify.com/products/king-of-kings-jersey" target="_blank" rel="noopener">Shop this &rarr;</a>
+        </div>
+      </div>
+    </section>
+
+    <div class="shop-bar reveal">
+      <h2>All Products</h2>
+      <div class="filters" role="tablist">
+      <button class="filter is-active" data-filter="All">All</button>
+      <button class="filter" data-filter="Apparel">Apparel</button>
+      <button class="filter" data-filter="Accessories">Accessories</button>
+      <button class="filter" data-filter="Music">Music</button>
+      </div>
+    </div>
+
+    <section class="pgrid" id="pgrid">
+      <a class="pc reveal" data-cat="Apparel" href="https://iamterrian.myshopify.com/products/honestly-hoodie-sage" target="_blank" rel="noopener">
+        <div class="pc__img">
+          <img src="https://cdn.shopify.com/s/files/1/0624/0911/3837/files/MERCH-11.jpg?v=1779048399" alt="Honestly Hoodie Sage" loading="lazy"><img class="alt" src="https://cdn.shopify.com/s/files/1/0624/0911/3837/files/MERCH-12.jpg?v=1779048396" alt="" loading="lazy">
+          
+          <span class="pc__view">View&nbsp;&rarr;</span>
+        </div>
+        <div class="pc__info">
+          <span class="pc__cat">Apparel</span>
+          <h3 class="pc__title">Honestly Hoodie Sage</h3>
+          <div class="pc__price"><span class="now">$60</span></div>
+        </div>
+      </a>
+      <a class="pc reveal" data-cat="Apparel" href="https://iamterrian.myshopify.com/products/king-of-kings-jersey" target="_blank" rel="noopener">
+        <div class="pc__img">
+          <img src="https://cdn.shopify.com/s/files/1/0624/0911/3837/files/MERCH-6.jpg?v=1779047401" alt="King of kings Jersey" loading="lazy"><img class="alt" src="https://cdn.shopify.com/s/files/1/0624/0911/3837/files/MERCH-7.jpg?v=1779047401" alt="" loading="lazy">
+          
+          <span class="pc__view">View&nbsp;&rarr;</span>
+        </div>
+        <div class="pc__info">
+          <span class="pc__cat">Apparel</span>
+          <h3 class="pc__title">King of kings Jersey</h3>
+          <div class="pc__price"><span class="now">$55</span></div>
+        </div>
+      </a>
+      <a class="pc reveal" data-cat="Apparel" href="https://iamterrian.myshopify.com/products/honestly-crewneck-sweatshirt" target="_blank" rel="noopener">
+        <div class="pc__img">
+          <img src="https://cdn.shopify.com/s/files/1/0624/0911/3837/files/HonestlySS.jpg?v=1779057346" alt="Honestly Crewneck Sweatshirt" loading="lazy"><img class="alt" src="https://cdn.shopify.com/s/files/1/0624/0911/3837/files/HonestlySweatshirt.jpg?v=1779057346" alt="" loading="lazy">
+          
+          <span class="pc__view">View&nbsp;&rarr;</span>
+        </div>
+        <div class="pc__info">
+          <span class="pc__cat">Apparel</span>
+          <h3 class="pc__title">Honestly Crewneck Sweatshirt</h3>
+          <div class="pc__price"><span class="now">$55</span></div>
+        </div>
+      </a>
+      <a class="pc reveal" data-cat="Apparel" href="https://iamterrian.myshopify.com/products/big-god-crop" target="_blank" rel="noopener">
+        <div class="pc__img">
+          <img src="https://cdn.shopify.com/s/files/1/0624/0911/3837/files/MERCH-3.jpg?v=1779047905" alt="Big God Crop" loading="lazy"><img class="alt" src="https://cdn.shopify.com/s/files/1/0624/0911/3837/files/MERCH-4.jpg?v=1779047880" alt="" loading="lazy">
+          
+          <span class="pc__view">View&nbsp;&rarr;</span>
+        </div>
+        <div class="pc__info">
+          <span class="pc__cat">Apparel</span>
+          <h3 class="pc__title">Big God Crop</h3>
+          <div class="pc__price"><span class="now">$35</span></div>
+        </div>
+      </a>
+      <a class="pc reveal" data-cat="Apparel" href="https://iamterrian.myshopify.com/products/testimony" target="_blank" rel="noopener">
+        <div class="pc__img">
+          <img src="https://cdn.shopify.com/s/files/1/0624/0911/3837/files/MERCH-9.jpg?v=1779048190" alt="Testimony T-shirt" loading="lazy"><img class="alt" src="https://cdn.shopify.com/s/files/1/0624/0911/3837/files/MERCH-8.jpg?v=1779048189" alt="" loading="lazy">
+          
+          <span class="pc__view">View&nbsp;&rarr;</span>
+        </div>
+        <div class="pc__info">
+          <span class="pc__cat">Apparel</span>
+          <h3 class="pc__title">Testimony T-shirt</h3>
+          <div class="pc__price"><span class="now">$35</span></div>
+        </div>
+      </a>
+      <a class="pc reveal" data-cat="Apparel" href="https://iamterrian.myshopify.com/products/big-god-lion" target="_blank" rel="noopener">
+        <div class="pc__img">
+          <img src="https://cdn.shopify.com/s/files/1/0624/0911/3837/files/NEWBigGod.png?v=1753213667" alt="Big God (Lion)" loading="lazy">
+          
+          <span class="pc__view">View&nbsp;&rarr;</span>
+        </div>
+        <div class="pc__info">
+          <span class="pc__cat">Apparel</span>
+          <h3 class="pc__title">Big God (Lion)</h3>
+          <div class="pc__price"><span class="now">$35</span></div>
+        </div>
+      </a>
+      <a class="pc reveal" data-cat="Apparel" href="https://iamterrian.myshopify.com/products/honestly-tee" target="_blank" rel="noopener">
+        <div class="pc__img">
+          <img src="https://cdn.shopify.com/s/files/1/0624/0911/3837/files/HonestlyTeeLive.jpg?v=1779057346" alt="Honestly Tee" loading="lazy"><img class="alt" src="https://cdn.shopify.com/s/files/1/0624/0911/3837/files/HonestlyTeeZoom.jpg?v=1779058540" alt="" loading="lazy">
+          
+          <span class="pc__view">View&nbsp;&rarr;</span>
+        </div>
+        <div class="pc__info">
+          <span class="pc__cat">Apparel</span>
+          <h3 class="pc__title">Honestly Tee</h3>
+          <div class="pc__price"><span class="now">$35</span></div>
+        </div>
+      </a>
+      <a class="pc reveal" data-cat="Apparel" href="https://iamterrian.myshopify.com/products/matthew-5-cream" target="_blank" rel="noopener">
+        <div class="pc__img">
+          <img src="https://cdn.shopify.com/s/files/1/0624/0911/3837/files/Photo_Oct_10_2024_2_08_59_PM_3.jpg?v=1779055795" alt="Matthew 5 Cream Tee" loading="lazy"><img class="alt" src="https://cdn.shopify.com/s/files/1/0624/0911/3837/files/Photo_Oct_10_2024_2_08_59_PM_2.jpg?v=1779055795" alt="" loading="lazy">
+          
+          <span class="pc__view">View&nbsp;&rarr;</span>
+        </div>
+        <div class="pc__info">
+          <span class="pc__cat">Apparel</span>
+          <h3 class="pc__title">Matthew 5 Cream Tee</h3>
+          <div class="pc__price"><span class="now">$35</span></div>
+        </div>
+      </a>
+      <a class="pc reveal" data-cat="Apparel" href="https://iamterrian.myshopify.com/products/matthew-5-gray" target="_blank" rel="noopener">
+        <div class="pc__img">
+          <img src="https://cdn.shopify.com/s/files/1/0624/0911/3837/files/Photo_Sep_30_2024_1_28_55_PM.jpg?v=1779055710" alt="Matthew 5 Gray Tee" loading="lazy"><img class="alt" src="https://cdn.shopify.com/s/files/1/0624/0911/3837/files/Photo_Oct_10_2024_2_08_59_PM_1_1.jpg?v=1779055708" alt="" loading="lazy">
+          
+          <span class="pc__view">View&nbsp;&rarr;</span>
+        </div>
+        <div class="pc__info">
+          <span class="pc__cat">Apparel</span>
+          <h3 class="pc__title">Matthew 5 Gray Tee</h3>
+          <div class="pc__price"><span class="now">$35</span></div>
+        </div>
+      </a>
+      <a class="pc reveal" data-cat="Apparel" href="https://iamterrian.myshopify.com/products/big-god-short-sleeve-tee" target="_blank" rel="noopener">
+        <div class="pc__img">
+          <img src="https://cdn.shopify.com/s/files/1/0624/0911/3837/files/BigGodTee.jpg?v=1779057347" alt="Big God Short Sleeve Tee" loading="lazy"><img class="alt" src="https://cdn.shopify.com/s/files/1/0624/0911/3837/files/BGTeeBack.jpg?v=1779057314" alt="" loading="lazy">
+          
+          <span class="pc__view">View&nbsp;&rarr;</span>
+        </div>
+        <div class="pc__info">
+          <span class="pc__cat">Apparel</span>
+          <h3 class="pc__title">Big God Short Sleeve Tee</h3>
+          <div class="pc__price"><span class="now">$30</span></div>
+        </div>
+      </a>
+      <a class="pc reveal" data-cat="Apparel" href="https://iamterrian.myshopify.com/products/keep-my-mind-hoodie" target="_blank" rel="noopener">
+        <div class="pc__img">
+          <img src="https://cdn.shopify.com/s/files/1/0624/0911/3837/products/KeepMyMind-hoodie.png?v=1644335043" alt="Keep My Mind Hoodie" loading="lazy">
+          
+          <span class="pc__view">View&nbsp;&rarr;</span>
+        </div>
+        <div class="pc__info">
+          <span class="pc__cat">Apparel</span>
+          <h3 class="pc__title">Keep My Mind Hoodie</h3>
+          <div class="pc__price"><span class="now">$30</span></div>
+        </div>
+      </a>
+      <a class="pc reveal" data-cat="Accessories" href="https://iamterrian.myshopify.com/products/testimony-hat" target="_blank" rel="noopener">
+        <div class="pc__img">
+          <img src="https://cdn.shopify.com/s/files/1/0624/0911/3837/files/Photo_Mar_27_2026_3_45_55_PM.jpg?v=1779140959" alt="Testimony Hat" loading="lazy"><img class="alt" src="https://cdn.shopify.com/s/files/1/0624/0911/3837/files/Photo_Mar_27_2026_3_45_50_PM.jpg?v=1779140953" alt="" loading="lazy">
+          
+          <span class="pc__view">View&nbsp;&rarr;</span>
+        </div>
+        <div class="pc__info">
+          <span class="pc__cat">Accessories</span>
+          <h3 class="pc__title">Testimony Hat</h3>
+          <div class="pc__price"><span class="now">$30</span></div>
+        </div>
+      </a>
+      <a class="pc reveal" data-cat="Accessories" href="https://iamterrian.myshopify.com/products/big-god-snapback" target="_blank" rel="noopener">
+        <div class="pc__img">
+          <img src="https://cdn.shopify.com/s/files/1/0624/0911/3837/files/MERCH-14.jpg?v=1779048506" alt="Big God Snapback" loading="lazy"><img class="alt" src="https://cdn.shopify.com/s/files/1/0624/0911/3837/files/MERCH-15.jpg?v=1779048508" alt="" loading="lazy">
+          
+          <span class="pc__view">View&nbsp;&rarr;</span>
+        </div>
+        <div class="pc__info">
+          <span class="pc__cat">Accessories</span>
+          <h3 class="pc__title">Big God Snapback</h3>
+          <div class="pc__price"><span class="now">$30</span></div>
+        </div>
+      </a>
+      <a class="pc reveal" data-cat="Accessories" href="https://iamterrian.myshopify.com/products/he-sees-you-snapback" target="_blank" rel="noopener">
+        <div class="pc__img">
+          <img src="https://cdn.shopify.com/s/files/1/0624/0911/3837/files/HSYhatfront_3a676144-d9f7-491c-b879-3af18b2ed539.png?v=1753998380" alt="He Sees You Snapback" loading="lazy"><img class="alt" src="https://cdn.shopify.com/s/files/1/0624/0911/3837/files/HSYhatback_58abeb3b-f981-400e-b7a3-dc3cbbd7cf54.png?v=1753998380" alt="" loading="lazy">
+          
+          <span class="pc__view">View&nbsp;&rarr;</span>
+        </div>
+        <div class="pc__info">
+          <span class="pc__cat">Accessories</span>
+          <h3 class="pc__title">He Sees You Snapback</h3>
+          <div class="pc__price"><span class="now">$30</span></div>
+        </div>
+      </a>
+      <a class="pc reveal" data-cat="Accessories" href="https://iamterrian.myshopify.com/products/beanie" target="_blank" rel="noopener">
+        <div class="pc__img">
+          <img src="https://cdn.shopify.com/s/files/1/0624/0911/3837/products/beanie.png?v=1643057506" alt="Terrian Beanie" loading="lazy">
+          
+          <span class="pc__view">View&nbsp;&rarr;</span>
+        </div>
+        <div class="pc__info">
+          <span class="pc__cat">Accessories</span>
+          <h3 class="pc__title">Terrian Beanie</h3>
+          <div class="pc__price"><span class="now">$30</span></div>
+        </div>
+      </a>
+      <a class="pc reveal" data-cat="Accessories" href="https://iamterrian.myshopify.com/products/honestly-notebook" target="_blank" rel="noopener">
+        <div class="pc__img">
+          <img src="https://cdn.shopify.com/s/files/1/0624/0911/3837/files/JournalHWJNJesus.jpg?v=1779056176" alt="Honestly Notebook" loading="lazy"><img class="alt" src="https://cdn.shopify.com/s/files/1/0624/0911/3837/files/HWJNJesusJournal.jpg?v=1779056176" alt="" loading="lazy">
+          
+          <span class="pc__view">View&nbsp;&rarr;</span>
+        </div>
+        <div class="pc__info">
+          <span class="pc__cat">Accessories</span>
+          <h3 class="pc__title">Honestly Notebook</h3>
+          <div class="pc__price"><span class="now">$20</span></div>
+        </div>
+      </a>
+      <a class="pc reveal" data-cat="Accessories" href="https://iamterrian.myshopify.com/products/keep-my-mind-tote" target="_blank" rel="noopener">
+        <div class="pc__img">
+          <img src="https://cdn.shopify.com/s/files/1/0624/0911/3837/products/KeepMyMind-bag.png?v=1643745550" alt="Keep My Mind Tote" loading="lazy">
+          <span class="pc__badge">Sale</span>
+          <span class="pc__view">View&nbsp;&rarr;</span>
+        </div>
+        <div class="pc__info">
+          <span class="pc__cat">Accessories</span>
+          <h3 class="pc__title">Keep My Mind Tote</h3>
+          <div class="pc__price"><span class="was">$20</span><span class="now">$15</span></div>
+        </div>
+      </a>
+      <a class="pc reveal" data-cat="Accessories" href="https://iamterrian.myshopify.com/products/keep-my-mind-totebag" target="_blank" rel="noopener">
+        <div class="pc__img">
+          <img src="https://cdn.shopify.com/s/files/1/0624/0911/3837/products/TMerch2021-09-JesusTote.png?v=1643057567" alt="Jesus Tote" loading="lazy">
+          <span class="pc__badge">Sale</span>
+          <span class="pc__view">View&nbsp;&rarr;</span>
+        </div>
+        <div class="pc__info">
+          <span class="pc__cat">Accessories</span>
+          <h3 class="pc__title">Jesus Tote</h3>
+          <div class="pc__price"><span class="was">$20</span><span class="now">$15</span></div>
+        </div>
+      </a>
+      <a class="pc reveal" data-cat="Music" href="https://iamterrian.myshopify.com/products/give-it-time-cd" target="_blank" rel="noopener">
+        <div class="pc__img">
+          <img src="https://cdn.shopify.com/s/files/1/0624/0911/3837/files/GiveItTime.png?v=1709261931" alt="Give It Time CD" loading="lazy">
+          
+          <span class="pc__view">View&nbsp;&rarr;</span>
+        </div>
+        <div class="pc__info">
+          <span class="pc__cat">Music</span>
+          <h3 class="pc__title">Give It Time CD</h3>
+          <div class="pc__price"><span class="now">$10</span></div>
+        </div>
+      </a>
+      <a class="pc reveal" data-cat="Music" href="https://iamterrian.myshopify.com/products/genesis-of-terrian-cd" target="_blank" rel="noopener">
+        <div class="pc__img">
+          <img src="https://cdn.shopify.com/s/files/1/0624/0911/3837/products/GenesisOf_EP-cd.jpg?v=1643056984" alt="Genesis of Terrian CD" loading="lazy"><img class="alt" src="https://cdn.shopify.com/s/files/1/0624/0911/3837/products/ScreenShot2022-02-04at12.54.33PM.png?v=1644004909" alt="" loading="lazy">
+          
+          <span class="pc__view">View&nbsp;&rarr;</span>
+        </div>
+        <div class="pc__info">
+          <span class="pc__cat">Music</span>
+          <h3 class="pc__title">Genesis of Terrian CD</h3>
+          <div class="pc__price"><span class="now">$10</span></div>
+        </div>
+      </a>
+    </section>
+  </main>
+
+  <!-- sticky mini countdown (appears after scrolling past the drop) -->
+  <div class="dropmini" id="dropMini" aria-hidden="true">
+    <div class="dropmini__in">
+      <img class="dm__thumb" id="dmThumb" src="https://cdn.shopify.com/s/files/1/0624/0911/3837/files/MERCH-11.jpg?v=1779048399" alt="">
+      <div class="dm__info"><span class="dm__label" id="dmLabel">Dropping Soon</span><span class="dm__name" id="dmName">Honestly Hoodie</span></div>
+      <div class="dm__count" id="dropMiniCount"><span data-d>--</span><small>d</small><span data-h>--</span><small>h</small><span data-m>--</span><small>m</small><span data-s>--</span><small>s</small></div>
+      <a class="dm__cta" id="dmCta" href="#drop">Notify Me</a>
+    </div>
+  </div>
+
+  <script src="/assets/site.js"></script>
+  <script>
+  (function(){
+    var grid=document.getElementById('pgrid'), cards=[].slice.call(grid.querySelectorAll('.pc'));
+    document.querySelectorAll('.filter').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        document.querySelectorAll('.filter').forEach(function(b){b.classList.remove('is-active');});
+        btn.classList.add('is-active');
+        var f=btn.getAttribute('data-filter');
+        cards.forEach(function(c){ c.classList.toggle('is-hidden', f!=='All' && c.getAttribute('data-cat')!==f); });
+        if(window.__armReveals) window.__armReveals();
+      });
+    });
+  })();
+  </script>
+
+  <script>
+  /* ===== Product drop — pulled from Airtable (Merch Drops, pointers only) and enriched with
+     live Shopify product data. Countdown + Notify Me + sticky mini-player.
+     Falls back to the baked-in default if the function is unreachable; hides if no active drop. ===== */
+  (function(){
+    var drop=document.getElementById('drop'), mini=document.getElementById('dropMini');
+    var cfg={ shortName:"Honestly Hoodie", url:"https://iamterrian.myshopify.com/products/honestly-hoodie-sage", endsAt:"2026-08-14T20:00:00-05:00" };
+    var end, live=false, started=false;
+    function two(n){ return (n<10?'0':'')+n; }
+    function paint(scope,d,h,m,s){ if(!scope)return; var q=function(k){return scope.querySelector('[data-'+k+']');};
+      if(q('d'))q('d').textContent=two(d); if(q('h'))q('h').textContent=two(h); if(q('m'))q('m').textContent=two(m); if(q('s'))q('s').textContent=two(s); }
+    function goLive(){ if(live)return; live=true;
+      drop.classList.add('is-live');
+      document.getElementById('dropPill').textContent='Live Now';
+      document.getElementById('dmLabel').textContent='Available Now';
+      var c=document.getElementById('dmCta'); c.textContent='Shop Now'; c.href=cfg.url; c.target='_blank'; c.rel='noopener';
+      document.getElementById('dropMiniCount').style.display='none';
+    }
+    function tick(){ var diff=end-Date.now();
+      if(diff<=0){ paint(document.getElementById('dropCount'),0,0,0,0); paint(document.getElementById('dropMiniCount'),0,0,0,0); goLive(); return; }
+      var d=Math.floor(diff/864e5), h=Math.floor(diff%864e5/36e5), m=Math.floor(diff%36e5/6e4), s=Math.floor(diff%6e4/1e3);
+      paint(document.getElementById('dropCount'),d,h,m,s); paint(document.getElementById('dropMiniCount'),d,h,m,s);
+    }
+    function hide(){ drop.style.display='none'; mini.style.display='none'; }
+    function apply(dp){
+      if(dp.name){ document.getElementById('dropTitle').textContent=dp.name; document.getElementById('dmName').textContent=dp.name; cfg.shortName=dp.name; }
+      if(dp.tagline){ document.getElementById('dropSub').textContent=dp.tagline; }
+      if(dp.endsAt){ cfg.endsAt=dp.endsAt; }
+      var pr=dp.product||{};
+      if(pr.url){ cfg.url=pr.url; document.getElementById('dropLiveBtn').href=pr.url; }
+      if(pr.image){ document.getElementById('dropImg').src=pr.image; document.getElementById('dmThumb').src=pr.image; }
+    }
+    function start(){ if(started)return; started=true;
+      end=new Date(cfg.endsAt).getTime();
+      if(isNaN(end)){ hide(); return; }
+      tick(); setInterval(tick,1000);
+      var io=new IntersectionObserver(function(es){ es.forEach(function(e){
+        var past=!e.isIntersecting && e.boundingClientRect.top<0;
+        mini.classList.toggle('show', past); mini.setAttribute('aria-hidden', past?'false':'true');
+      }); }, {threshold:0});
+      io.observe(drop);
+      document.getElementById('dmCta').addEventListener('click', function(e){
+        if(!live){ e.preventDefault(); drop.scrollIntoView({behavior:'smooth'}); var inp=drop.querySelector('input'); if(inp) setTimeout(function(){inp.focus();},520); }
+      });
+      var form=document.getElementById('dropForm'), msg=document.getElementById('dropMsg'), busy=false;
+      form.addEventListener('submit', function(e){ e.preventDefault(); if(busy) return;
+        var email=(form.email.value||'').trim();
+        if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){ msg.style.color='#ec9a9a'; msg.textContent='Please enter a valid email.'; return; }
+        busy=true; msg.style.color='#b7b2a6'; msg.textContent='Setting your reminder…';
+        fetch('/.netlify/functions/subscribe',{method:'POST',headers:{'Content-Type':'application/json'},
+          body:JSON.stringify({email:email,source:'Merch drop — '+cfg.shortName,reason:'Merch drop'})})
+          .then(function(r){ return r.json().catch(function(){return {ok:r.ok};}); })
+          .then(function(d){ busy=false; if(d&&d.ok){ msg.style.color='#7fd18a'; msg.textContent='You’re on the list — we’ll email you the moment it drops. ✓'; form.reset(); } else { msg.style.color='#ec9a9a'; msg.textContent=(d&&d.error)||'Something went wrong. Please try again.'; } })
+          .catch(function(){ busy=false; msg.style.color='#ec9a9a'; msg.textContent='Network error. Please try again.'; });
+      });
+    }
+    fetch('/.netlify/functions/drop').then(function(r){ return r.json(); }).then(function(d){
+      if(d && d.ok){ if(d.drop){ apply(d.drop); start(); } else { hide(); } }
+      else { start(); }
+    }).catch(function(){ start(); });
+  })();
+  </script>
+</body>
+</html>

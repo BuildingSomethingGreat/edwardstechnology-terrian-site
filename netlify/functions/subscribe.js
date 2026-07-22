@@ -12,7 +12,7 @@ const AIRTABLE_API = 'https://api.airtable.com/v0';
 const DEFAULT_BASE = 'app9qCbHhx4CHFPFJ'; // Client-Terrian (base IDs are not secret)
 const DEFAULT_TABLE = 'Subscribers';
 const EMAIL_RE = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
-const REASONS = ['Newsletter / updates', 'Booking inquiry', 'Press / media', 'General question'];
+const REASONS = ['Newsletter / updates', 'Booking inquiry', 'Press / media', 'General question', 'Merch drop'];
 
 const CORS = {
   'Access-Control-Allow-Origin': '*',

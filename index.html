@@ -59,7 +59,7 @@
       <a href="/music/" data-nl>Music</a>
       <a href="/blog/" data-nl>Blog</a>
       <a href="/tour/" data-nl>Tour</a>
-      <a href="https://iamterrian.myshopify.com/" target="_blank" rel="noopener">Shop</a>
+      <a href="/shop/" data-nl>Shop</a>
     </nav>
     <a class="lp-support" href="https://angelstreetmemphis.org/" target="_blank" rel="noopener">Support AngelStreet</a>
     <button class="lp-menu-btn" id="lpMenuBtn" aria-label="Open menu">Menu <span class="bars"><i></i><i></i></span></button>
@@ -92,7 +92,7 @@
     var navov=document.createElement('nav'); navov.className='navov'; navov.setAttribute('aria-label','Menu');
     navov.innerHTML='<button class="close" type="button" aria-label="Close menu">&#10005;</button>'
       +'<a class="nl" href="/home/">Home</a><a class="nl" href="/music/">Music</a><a class="nl" href="/blog/">Blog</a><a class="nl" href="/tour/">Tour</a>'
-      +'<a class="nl" href="https://iamterrian.myshopify.com/" target="_blank" rel="noopener">Shop</a>'
+      +'<a class="nl" href="/shop/">Shop</a>'
       +'<div class="ov-social">'+socHTML+'</div>';
     document.body.appendChild(navov);
     function lpMclose(){ navov.classList.remove('open'); document.documentElement.style.overflow=''; }
