@@ -9,7 +9,7 @@
 //   AIRTABLE_BLOG_TABLE   (optional) — defaults to "Posts"
 
 const AIRTABLE_API = 'https://api.airtable.com/v0';
-const DEFAULT_BASE = 'appo3YN727pYq63tv'; // Client-Terrian-Blog (base IDs are not secret)
+const DEFAULT_BASE = 'app9qCbHhx4CHFPFJ'; // Client-Terrian (Posts table lives here alongside Subscribers)
 const DEFAULT_TABLE = 'Posts';
 
 const CORS = {
