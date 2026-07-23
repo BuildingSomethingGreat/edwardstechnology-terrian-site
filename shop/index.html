@@ -486,10 +486,14 @@
           .catch(function(){ busy=false; msg.style.color='#ec9a9a'; msg.textContent='Network error. Please try again.'; });
       });
     }
+    /* Keep the built-in default only for LOCAL preview; in production follow Airtable strictly
+       (so a deactivated drop or a function error never leaves a phantom drop showing). */
+    var isLocal=(location.hostname==='localhost'||location.hostname==='127.0.0.1'||location.hostname==='::1'||location.hostname==='');
+    function fallback(){ if(isLocal) start(); else hide(); }
     fetch('/.netlify/functions/drop').then(function(r){ return r.json(); }).then(function(d){
       if(d && d.ok){ if(d.drop){ apply(d.drop); start(); } else { hide(); } }
-      else { start(); }
-    }).catch(function(){ start(); });
+      else { fallback(); }
+    }).catch(function(){ fallback(); });
   })();
   </script>
 </body>

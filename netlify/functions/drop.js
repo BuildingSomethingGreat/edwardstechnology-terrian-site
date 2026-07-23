@@ -21,7 +21,7 @@ const CORS = {
   'Access-Control-Allow-Headers': 'Content-Type',
   'Access-Control-Allow-Methods': 'GET, OPTIONS',
   'Content-Type': 'application/json',
-  'Cache-Control': 'public, max-age=60, stale-while-revalidate=300',
+  'Cache-Control': 'public, max-age=20, stale-while-revalidate=40',
 };
 const reply = (statusCode, obj) => ({ statusCode, headers: CORS, body: JSON.stringify(obj) });
 
