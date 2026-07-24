@@ -10,10 +10,7 @@
 <style>
   html,body{height:100%}
   body.landing{height:100svh;overflow:hidden}
-  .lp-video{position:fixed;inset:0;z-index:0;overflow:hidden;background:#0d0c0b;pointer-events:none}
-  .lp-video iframe{position:absolute;top:50%;left:50%;width:100vw;height:56.25vw;min-height:100vh;min-width:177.78vh;transform:translate(-50%,-50%) scale(1.35);border:0;pointer-events:none}
-  .lp-poster{position:fixed;inset:0;z-index:1;background:#0d0c0b;transition:opacity 1.4s ease}
-  body.lp-playing .lp-poster{opacity:0}
+  .lp-poster{position:fixed;inset:0;z-index:1;background:#0d0c0b url(/assets/images/terrian-updated.png) center/cover no-repeat}
   .lp-scrim{position:fixed;inset:0;z-index:2;background:linear-gradient(180deg,rgba(20,19,18,.55) 0%,rgba(20,19,18,.18) 30%,rgba(20,19,18,.2) 60%,rgba(20,19,18,.88) 100%)}
   .lp-top{position:fixed;top:0;left:0;right:0;z-index:6;display:flex;align-items:center;justify-content:space-between;padding:24px 30px;gap:18px}
   .lp-support{font:700 12px/1 system-ui,sans-serif;letter-spacing:.08em;text-transform:uppercase;color:var(--ink);background:var(--cream);border-radius:999px;padding:12px 20px;transition:transform .16s}
@@ -48,7 +45,6 @@
 <body class="landing" data-page="landing" data-chrome="off" data-footer="none" data-status="Mad Big World — Out Now">
   <div id="site-preloader"><div class="pl-wm"></div></div>
 
-  <div class="lp-video"><div id="lpYT"></div></div>
   <div class="lp-poster"></div>
   <div class="lp-scrim"></div>
 
@@ -108,17 +104,6 @@
       document.querySelectorAll('a[data-nl]').forEach(function(a){ if(a.getAttribute('href').indexOf('http')!==0) a.target='_top'; });
       var sup=document.querySelector('.lp-support'); if(sup) sup.style.display='none';
     }
-
-    /* background video — chromeless, covering, so no YouTube UI shows */
-    var revealed=false;
-    function reveal(){ if(revealed) return; revealed=true; document.body.classList.add('lp-playing'); }
-    function make(){ new YT.Player('lpYT',{videoId:'J_wPODTx3xs',host:'https://www.youtube.com',
-      playerVars:{autoplay:1,mute:1,controls:0,modestbranding:1,rel:0,playsinline:1,disablekb:1,fs:0,iv_load_policy:3,cc_load_policy:0},
-      events:{onReady:function(e){try{e.target.mute();e.target.playVideo();}catch(x){}},
-        onStateChange:function(e){ if(e.data===1){ setTimeout(reveal,2600); } if(e.data===0){ try{e.target.seekTo(0);e.target.playVideo();}catch(x){} } }}}); }
-    setTimeout(reveal,6000);
-    if(window.YT&&window.YT.Player){ make(); } else { var prev=window.onYouTubeIframeAPIReady; window.onYouTubeIframeAPIReady=function(){ if(prev)prev(); make(); };
-      if(!document.querySelector('script[src*="iframe_api"]')){ var sc=document.createElement('script'); sc.src='https://www.youtube.com/iframe_api'; document.head.appendChild(sc); } }
   })();
   </script>
 </body>
