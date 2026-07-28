@@ -1,85 +1,75 @@
-# Agent Notes — blog post can't be added by editing the repo
+# Agent Notes — password-protecting the branding page needs decisions I shouldn't guess at
 
 ## What was requested
-Create and publish a new **summer-themed** blog post, on-topic and in the
-site's voice.
+1. Password-protect the branding page (`/branding/`).
+2. Exclude it from SEO / web crawlers (noindex meta and/or robots.txt disallow).
+3. Store a **hashed** version of the access password in the client's data record
+   (not plain text) for use in authentication.
 
-## Why no code edits were made
-The blog is **not file-based** — there are no post files in this repo to add.
-The blog is driven entirely by an external **Airtable** base:
+## Part 2 is already done — no change needed
+The crawler exclusion the request asks for is already in place:
 
-- `blog/index.html` and `post/index.html` are just renderers. They call
-  `/.netlify/functions/posts` at page load.
-- `netlify/functions/posts.js` reads published posts from the
-  **`Client-Terrian-Blog`** Airtable base (base `appo3YN727pYq63tv`, table
-  `Posts`) using the server-side `AIRTABLE_TOKEN`. A post appears on the site
-  only when its `Published` checkbox is on.
+- `robots.txt` already has `Disallow: /branding/`.
+- `branding/index.html` already has `<meta name="robots" content="noindex">` (line 8).
 
-So "publishing a post" means **adding one record in Airtable**, not committing a
-file. Making it work via the repo would require converting the whole blog to a
-file-based system — a structural refactor that breaks the current Airtable
-pipeline and goes beyond a scoped content change. Per the project rules I stopped
-rather than guess at that.
+So the branding page is already kept out of search indexes and the sitemap
+(`sitemap.xml` does not list `/branding/`). Nothing to change here.
 
-## How to publish (Airtable → done)
-Add a new row to the `Posts` table in the `Client-Terrian-Blog` base with the
-fields below, then tick **Published**. The site picks it up within ~60s (CDN
-cache). `Body` uses the light Markdown the renderer supports: `##`/`###`
-headings, `>` blockquotes, `-` bullets, `**bold**`, `*italic*`, `[text](url)`
-links, and blank lines between paragraphs.
+## Why I stopped on parts 1 and 3 instead of guessing
+This is a **static site on Netlify** (publish = repo root) with a few serverless
+functions backed by an external **Airtable** base (`Client-Terrian`, base
+`app9qCbHhx4CHFPFJ`). There is no auth layer and no client "data record" living
+in this repo. Two blockers:
 
-## Ready-to-paste draft (summer theme, in Terrian's voice)
+**A. There's no password to hash.** The request says to store a hash of "the
+access password," but no password value was provided (no attachments, nothing in
+the request). I won't invent one.
 
-- **Title:** Summer, Slow Down, and Trusting God's Timing
-- **Slug:** `summer-slow-down-trusting-gods-timing`
-- **Author:** Terrian
-- **Date:** `2026-07-21`
-- **Cover:** (optional — attach a warm summer/road image if you have one)
-- **Published:** ✅
-- **Excerpt:** A few honest notes on rest, the road this summer, and why waiting
-  on God is never wasted.
+**B. The "client's data record" is Airtable, not this repo.** The only client
+data store is the runtime Airtable base, read/written by the Netlify functions
+using the server-side `AIRTABLE_TOKEN` (see `netlify/functions/*.js`). I can't
+write a record from a repo edit, and there is no password/hash field on any
+current table (`Subscribers`, `Posts`, `Merch Drops`). Committing a hash into the
+git repo would put a credential in the wrong place — the repo is public-ish
+client content, not the "client's data record" the request refers to.
 
-**Body:**
+**C. Real password protection is a structural change, not a content edit.** On a
+static site the options are all bigger than a scoped edit, and one of them is a
+false-security trap:
 
-```
-Summer has a way of slowing everything down — longer days, open windows, that
-golden light in the evening that makes you want to sit still for a minute. And
-if I'm honest, sitting still has never come easy to me.
+- **Client-side JS gate (do NOT do this):** checking a password (even a hash) in
+  page JavaScript is trivially bypassable via view-source. Worse, the actual
+  brand assets under `/assets/images/*` are served as plain static files, so they
+  stay directly downloadable no matter what the HTML page does. This would look
+  protected while protecting nothing.
+- **Serverless auth (real, but new infrastructure):** a Netlify function that
+  verifies the submitted password against the stored hash and issues a signed
+  session cookie, plus a login page and gating for both `/branding/` *and* the
+  underlying asset files. This is a genuine feature to design, not a one-line
+  edit, and it changes the site's security surface.
+- **Netlify built-in password protection:** Netlify offers site/branch password
+  protection and role-based "Visitor access" as a dashboard setting (paid tiers).
+  That's an operator dashboard change, not a repo change, and doesn't involve a
+  hash stored by us.
 
-## Learning to rest
+Per the project rules (make no edits when a request needs
+destructive/structural changes or is unclear — don't guess), I stopped here.
 
-So much of *Give It Time* — and now *Mad Big World* — came out of learning that
-waiting on God is never wasted. He's always working, even in the silence. This
-season I'm trying to actually live that instead of just singing it. To let a
-slow morning be a gift and not a delay.
+## What I need to proceed
+Please confirm:
 
-> He's always working, even in the silence.
+1. **The password itself** — the actual access password to protect the page with
+   (send it out-of-band; I'll hash it, never store plaintext).
+2. **Which mechanism** you want:
+   - (a) Netlify's built-in password protection (simplest; operator sets it in
+     the Netlify dashboard — no code, no stored hash by us), **or**
+   - (b) a custom serverless login: a Netlify function + login page + signed
+     session cookie that also gates the asset downloads. If so, confirm I should
+     build it as its own change.
+3. **Where the hash should live** if we go with (b): I'd add a field (e.g.
+   `Branding Access Hash`) on a table in the `Client-Terrian` Airtable base and
+   grant the function `data.records:read` on it. Confirm the base/table and that
+   Airtable is the intended "client data record."
 
-## On the road
-
-There's something about summer shows I love. Warm crowds, voices carrying out
-into the night, strangers becoming a room full of people worshipping together.
-If you're coming out to a show this summer, come say hi — I mean it.
-
-- Drink the water, wear the sunscreen, dance anyway.
-- Bring a friend who needs to hear a little hope.
-- Stay for the last song. That's usually where God shows up.
-
-## Give it time
-
-Whatever you're waiting on this summer — an answer, a healing, a door to open —
-give it time. Trust that the same God who paints the sky every evening hasn't
-forgotten about you. Rest is not falling behind. It's part of the plan.
-
-See you out there.
-```
-
-## What I need to proceed with an actual publish
-Confirm one of:
-1. **Publish it for you** — say so, and grant Airtable access (a PAT with
-   `data.records:write` on base `appo3YN727pYq63tv`), and I'll add the record.
-2. **Adjust the draft** — tell me the angle, title, or length you'd prefer and
-   I'll revise the copy above.
-3. **Move the blog to file-based** — if you actually want posts to live in the
-   repo, confirm that and I'll design it as its own change (it's a bigger,
-   structural task, not a content edit).
+Once you pick a mechanism and give me the password, I can implement it as a
+properly scoped change.
