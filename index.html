@@ -10,11 +10,7 @@
 <style>
   html,body{height:100%}
   body.landing{height:100svh;overflow:hidden}
-  .lp-poster{position:fixed;inset:0;z-index:1;background:#0d0c0b url(/assets/images/terrian-updated.png) center/cover no-repeat;transition:opacity 1.4s ease}
-  .lp-poster.lp-hide{opacity:0}
-  .lp-video{position:fixed;inset:0;z-index:1;overflow:hidden;background:#0d0c0b;opacity:0;transition:opacity 1.4s ease;pointer-events:none}
-  .lp-video.lp-show{opacity:1}
-  .lp-video iframe{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:100vw;height:56.25vw;min-width:177.78vh;min-height:100vh;border:0;pointer-events:none}
+  .lp-poster{position:fixed;inset:0;z-index:1;background:#0d0c0b url(/assets/images/terrian-updated.png) center/cover no-repeat}
   .lp-scrim{position:fixed;inset:0;z-index:2;background:linear-gradient(180deg,rgba(20,19,18,.55) 0%,rgba(20,19,18,.18) 30%,rgba(20,19,18,.2) 60%,rgba(20,19,18,.88) 100%)}
   .lp-top{position:fixed;top:0;left:0;right:0;z-index:6;display:flex;align-items:center;justify-content:space-between;padding:24px 30px;gap:18px}
   .lp-support{font:700 12px/1 system-ui,sans-serif;letter-spacing:.08em;text-transform:uppercase;color:var(--ink);background:var(--cream);border-radius:999px;padding:12px 20px;transition:transform .16s}
@@ -50,11 +46,6 @@
   <div id="site-preloader"><div class="pl-wm"></div></div>
 
   <div class="lp-poster"></div>
-  <div class="lp-video" id="lpVideo" aria-hidden="true">
-    <iframe
-      src="https://www.youtube.com/embed/J_wPODTx3xs?autoplay=1&mute=1&controls=0&loop=1&playlist=J_wPODTx3xs&playsinline=1&modestbranding=1&disablekb=1"
-      title="Terrian" allow="autoplay; encrypted-media" frameborder="0"></iframe>
-  </div>
   <div class="lp-scrim"></div>
 
   <div class="lp-top">
@@ -81,16 +72,6 @@
   <script src="/assets/site.js"></script>
   <script>
   (function(){
-    /* fade the hero photo into the edge-to-edge background video after a short delay */
-    var vid=document.getElementById('lpVideo');
-    if(vid){
-      var poster=document.querySelector('.lp-poster');
-      setTimeout(function(){
-        vid.classList.add('lp-show');
-        if(poster) poster.classList.add('lp-hide');
-      }, 1200);
-    }
-
     /* social icons */
     var SOC=[
       ['Instagram','https://www.instagram.com/iamterrian','<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="2.5" y="2.5" width="19" height="19" rx="5.5"/><circle cx="12" cy="12" r="4.3"/><circle cx="17.6" cy="6.4" r="1.15" fill="currentColor" stroke="none"/></svg>'],
