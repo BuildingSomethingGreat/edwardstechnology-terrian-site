@@ -30,6 +30,10 @@
   .use .do li:before{content:"✓";color:#7fd18a}.use .dont li:before{content:"✕";color:#e79a9a}
   .b-sec{margin-top:48px}
   .b-sec > h2{font:600 15px/1.3 system-ui,sans-serif;letter-spacing:.14em;text-transform:uppercase;margin-bottom:6px}
+  .reel{border:1px solid var(--line);border-radius:16px;overflow:hidden;background:#000}
+  .reel video{display:block;width:100%;height:auto}
+  .doc{display:flex;align-items:center;justify-content:space-between;gap:14px;border:1px solid var(--line);border-radius:16px;background:var(--ink2);padding:18px 20px}
+  .doc .name{font-size:15px}.doc .sub{color:var(--muted);font-size:13px;margin-top:2px}
   @media (max-width:560px){.use{grid-template-columns:1fr}}
 </style>
 </head>
@@ -56,6 +60,19 @@
         <div class="grid">
           <div class="card"><div class="swatchimg on-dark"><img src="/assets/images/mbw-cover.jpg" alt="Mad Big World cover"></div><div class="meta"><div><div class="name">Mad Big World</div><div class="sub">Album cover</div></div><a class="dl" href="/assets/images/mbw-cover.jpg" download>JPG</a></div></div>
           <div class="card"><div class="swatchimg on-light"><img src="/assets/images/mbw-disc.png" alt="Mad Big World picture disc"></div><div class="meta"><div><div class="name">Mad Big World</div><div class="sub">Picture disc</div></div><a class="dl" href="/assets/images/mbw-disc.png" download>PNG</a></div></div>
+        </div>
+      </div>
+
+      <div class="b-sec reveal"><h2>Sizzle Reel</h2>
+        <div class="reel">
+          <video src="/assets/media/V3.mov" autoplay loop muted playsinline preload="metadata" aria-label="Terrian sizzle reel"></video>
+        </div>
+      </div>
+
+      <div class="b-sec reveal"><h2>Media Bio</h2>
+        <div class="doc">
+          <div><div class="name">Terrian — Media Bio</div><div class="sub">Official artist bio for press &amp; partners</div></div>
+          <a class="dl" href="/assets/docs/TerrianBio.pdf" target="_blank" rel="noopener" download>PDF</a>
         </div>
       </div>
 
