@@ -1,0 +1,128 @@
+<!doctype html>
+<!--
+  Terrian — Welcome email for new subscribers
+  ---------------------------------------------------------------------------
+  Sent when someone joins the mailing list (see the "Subscribe" form in the
+  site footer). Mirrors the site design system in /assets/site.css:
+    ink #141312 · ink2 #1b1a18 · cream #f3f1e9 · muted #b7b2a6 · pink #e29ee3
+  Fonts fall back to the site's stacks (system-ui sans + Georgia serif) since
+  email clients can't load the site's web fonts.
+
+  Table-based layout + inline styles for broad email-client support.
+  Placeholders to fill before sending: {{first_name}} (optional).
+  Do NOT send a test from here — that step needs human review.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="x-apple-disable-message-reformatting">
+<meta name="color-scheme" content="dark">
+<meta name="supported-color-schemes" content="dark">
+<title>Welcome to Terrian</title>
+</head>
+<body style="margin:0;padding:0;background:#141312;color:#f3f1e9;-webkit-text-size-adjust:100%;-webkit-font-smoothing:antialiased;">
+  <!-- preheader (hidden preview text) -->
+  <div style="display:none;max-height:0;overflow:hidden;opacity:0;color:transparent;height:0;width:0;">
+    You're in. Welcome to the family — we'll be in touch within 24–48 hours.
+  </div>
+
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#141312;">
+    <tr>
+      <td align="center" style="padding:0 20px;">
+
+        <!-- outer card -->
+        <table role="presentation" width="600" cellpadding="0" cellspacing="0" border="0" style="width:600px;max-width:600px;margin:0 auto;">
+
+          <!-- wordmark -->
+          <tr>
+            <td align="center" style="padding:44px 40px 8px;">
+              <a href="https://edwardstechnology-terrian.netlify.app/home/" style="text-decoration:none;">
+                <img src="https://edwardstechnology-terrian.netlify.app/assets/images/terrian-script-pink.png"
+                     alt="Terrian" width="180"
+                     style="display:block;width:180px;max-width:70%;height:auto;border:0;margin:0 auto;">
+              </a>
+            </td>
+          </tr>
+
+          <!-- hero -->
+          <tr>
+            <td align="center" style="padding:26px 40px 8px;">
+              <p style="margin:0 0 18px;font-family:'Helvetica Neue',Arial,sans-serif;font-weight:700;font-size:12px;line-height:1;letter-spacing:.24em;text-transform:uppercase;color:#e29ee3;">
+                Welcome to the family
+              </p>
+              <h1 style="margin:0;font-family:Georgia,'Times New Roman',serif;font-style:italic;font-weight:600;font-size:40px;line-height:1.05;letter-spacing:-.01em;color:#f3f1e9;">
+                You&rsquo;re in.
+              </h1>
+            </td>
+          </tr>
+
+          <!-- body copy -->
+          <tr>
+            <td align="center" style="padding:22px 44px 6px;">
+              <p style="margin:0 0 18px;font-family:'Helvetica Neue',Arial,sans-serif;font-size:17px;line-height:1.7;color:#f3f1e9;">
+                Hey there &mdash; thank you for signing up. It genuinely means a lot to have you here.
+              </p>
+              <p style="margin:0 0 18px;font-family:'Helvetica Neue',Arial,sans-serif;font-size:16px;line-height:1.7;color:#b7b2a6;">
+                From here on you&rsquo;ll be the first to hear about new music, new shows, and the story
+                behind <span style="color:#f3f1e9;font-weight:600;">Mad Big World</span> &mdash; straight to your inbox.
+              </p>
+              <p style="margin:0;font-family:'Helvetica Neue',Arial,sans-serif;font-size:16px;line-height:1.7;color:#b7b2a6;">
+                Someone from the team will personally reach out within
+                <span style="color:#f3f1e9;font-weight:600;">24&ndash;48 hours</span>. In the meantime,
+                make yourself at home.
+              </p>
+            </td>
+          </tr>
+
+          <!-- CTA button (pill, solid cream — matches .btn--solid) -->
+          <tr>
+            <td align="center" style="padding:30px 40px 8px;">
+              <table role="presentation" cellpadding="0" cellspacing="0" border="0" style="margin:0 auto;">
+                <tr>
+                  <td align="center" bgcolor="#f3f1e9" style="border-radius:999px;">
+                    <a href="https://edwardstechnology-terrian.netlify.app/music/"
+                       style="display:inline-block;padding:15px 30px;font-family:'Helvetica Neue',Arial,sans-serif;font-weight:700;font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:#141312;text-decoration:none;border-radius:999px;">
+                      Listen now
+                    </a>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- divider -->
+          <tr>
+            <td style="padding:40px 44px 0;">
+              <div style="height:1px;line-height:1px;font-size:0;background:rgba(243,241,233,.16);">&nbsp;</div>
+            </td>
+          </tr>
+
+          <!-- footer / social -->
+          <tr>
+            <td align="center" style="padding:28px 44px 46px;">
+              <table role="presentation" cellpadding="0" cellspacing="0" border="0" style="margin:0 auto 18px;">
+                <tr>
+                  <td style="padding:0 11px;"><a href="https://www.instagram.com/iamterrian" style="font-family:'Helvetica Neue',Arial,sans-serif;font-size:12px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:#b7b2a6;text-decoration:none;">Instagram</a></td>
+                  <td style="padding:0 11px;"><a href="https://open.spotify.com/artist/19TPpTWkgX13Qc2stbqVoP" style="font-family:'Helvetica Neue',Arial,sans-serif;font-size:12px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:#b7b2a6;text-decoration:none;">Spotify</a></td>
+                  <td style="padding:0 11px;"><a href="https://www.youtube.com/channel/UC6bWXuTerKlroiGyS_5uPBw" style="font-family:'Helvetica Neue',Arial,sans-serif;font-size:12px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:#b7b2a6;text-decoration:none;">YouTube</a></td>
+                </tr>
+              </table>
+              <p style="margin:0 0 6px;font-family:'Helvetica Neue',Arial,sans-serif;font-size:12px;line-height:1.6;color:#b7b2a6;">
+                &copy; 2026 Terrian &middot; Gospel artist. Storyteller.
+              </p>
+              <p style="margin:0;font-family:'Helvetica Neue',Arial,sans-serif;font-size:12px;line-height:1.6;color:#b7b2a6;">
+                You&rsquo;re receiving this because you subscribed at
+                <a href="https://edwardstechnology-terrian.netlify.app/" style="color:#e29ee3;text-decoration:none;">terrian&rsquo;s site</a>.
+              </p>
+            </td>
+          </tr>
+
+        </table>
+        <!-- /outer card -->
+
+      </td>
+    </tr>
+  </table>
+</body>
+</html>
